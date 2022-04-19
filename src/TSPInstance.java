@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class TSPInstance {
 
     /*
-     * Seleccionar el archivo con la información de la instancia del problema a resolver.
+     * 1) Seleccionar el archivo con la información de la instancia del problema a resolver.
      * El archivo contendrá la cantidad de ciudades a considerar, y también el costo del viaje
      * entre cada par de esas ciudades. Se solicita utilizar los archivos provistos por la cátedra.
      * En este respecto, se proveen archivos con distintas instancias del problema provenientes
@@ -55,7 +55,7 @@ public class TSPInstance {
                 }
                 ln = br.readLine();
                 i++;
-            };
+            }
             br.close();
 
         } catch (IOException e) {

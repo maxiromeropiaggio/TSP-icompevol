@@ -1,7 +1,6 @@
 public class TSPManager {
-
     private TSPInstance instance;
-    private final String name = "Experiment i";
+    private String name;
 
     /*
      * Realizar inciso A
@@ -17,6 +16,22 @@ public class TSPManager {
      * mediante las distintas configuraciones ejecutadas. El objetivo de este análisis es detectar
      * a la mejor configuración de las configuraciones ejecutadas.
      */
+
+    public TSPManager(String name, TSPInstance instance) {
+
+    }
+
+    public TSPInstance getInstance() {
+        return instance;
+    }
+
+    public void setInstance(TSPInstance instance) {
+        this.instance = instance;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public static void main(String[] args) {
         TSPInstance br17 = new TSPInstance("br17.atsp");
