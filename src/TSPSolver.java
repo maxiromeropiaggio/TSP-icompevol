@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TSPSolver {
 
@@ -43,9 +44,9 @@ public class TSPSolver {
 
     public int[][] generateInitialPoblation() {
         int[][] initialPoblation = new int[N][];
-        for (int i = 0; i < initialPoblation.length - m; i++) {
+        for (int i = 0; i < initialPoblation.length - m; i++)
             initialPoblation[i] = generateRandomGenotype(this.instance.getDIMENSION());
-        }
+
         for (int j = initialPoblation.length - m; j < initialPoblation.length; j++) {
             initialPoblation[j] = getGenotypeBySelectiveInitialization();
         }
@@ -55,29 +56,22 @@ public class TSPSolver {
 
     private int[] generateRandomGenotype(int dim) {
         int[] r = new int[dim];
-        int[] candidates = new int[dim];
-        for (int i = 0; i < candidates.length; i++)
-            candidates[i] = i;
+        do {
+            int[] candidates = new int[dim];
+            for (int i = 0; i < candidates.length; i++)
+                candidates[i] = i;
+            int remaining = dim;
 
-        int remaining = dim;
-        int pos = (int) (Math.random() * remaining);
-        r[0] = candidates[pos];
-        int lastPos = remaining - 1;
-        candidates[pos] = candidates[lastPos];
-        candidates[lastPos] = 0;
-        remaining--;
+            for (int i = 0; i < r.length; i++) {
+                int pos = (int) (Math.random() * remaining);
+                r[i] = candidates[pos];
 
-        for (int i = 1; i < r.length; i++) {
-            do {
-                pos = (int) (Math.random() * remaining);
-            } while (this.instance.getCost(r[i-1], candidates[pos]) == 0);
-
-            r[i] = candidates[pos];
-            lastPos = remaining - 1;
-            candidates[pos] = candidates[lastPos];
-            candidates[lastPos] = 0;
-            remaining--;
-        }
+                int lastPos = remaining - 1;
+                candidates[pos] = candidates[lastPos];
+                candidates[lastPos] = 0;
+                remaining--;
+            }
+        } while(!isAValidGenotype(r));
 
         return r;
     }
@@ -86,7 +80,19 @@ public class TSPSolver {
         return null;
     }
 
+    private boolean isAValidGenotype(int[] genotype) {
+        if (isAValidPath(genotype[genotype.length-1], genotype[0]))
+            return false;
+        for (int i = 1; i < genotype.length; i++) {
+            if (isAValidPath(genotype[i-1], genotype[i]))
+                return false;
+        }
+        return true;
+    }
 
+    private boolean isAValidPath(int src, int dst) {
+        return this.instance.getCost(src, dst) == 0;
+    }
 
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
