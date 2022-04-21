@@ -38,12 +38,8 @@ public class TSPManager {
     public static void main(String[] args) {
         TSPInstance br17 = new TSPInstance("br17.atsp");
         //System.out.println(br17);
-        TSPSolver br17Solver = new TSPSolver(br17, 10, 0, 0.0, 0.0, 0, 0, 0);
-        int[][] ip1 = br17Solver.generateInitialPoblation();
-        /*for (int[] ints : ip1) {
-            System.out.println(Arrays.toString(ints));
-            System.out.println();
-        }*/
+        TSPSolver br17Solver = new TSPSolver(br17, 100, 0, 0.0, 0.0, 10, 20, 100);
+        int[] s = br17Solver.run();
 
         TSPInstance p43 = new TSPInstance("p43.atsp");
         //System.out.println(p43);

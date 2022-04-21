@@ -35,9 +35,8 @@ public class TSPSolver {
 
     public int funcFitness(int[] s) {
         int r = 0;
-        for (int i = 0; i < s.length-1; i++) {
+        for (int i = 0; i < s.length-1; i++)
             r += instance.getCost(i, i+1);
-        }
         r += instance.getCost(s.length-1, 0);
         return r;
     }
@@ -47,9 +46,8 @@ public class TSPSolver {
         for (int i = 0; i < initialPoblation.length - m; i++)
             initialPoblation[i] = generateRandomGenotype(this.instance.getDIMENSION());
 
-        for (int j = initialPoblation.length - m; j < initialPoblation.length; j++) {
+        for (int j = initialPoblation.length - m; j < initialPoblation.length; j++)
             initialPoblation[j] = getGenotypeBySelectiveInitialization();
-        }
 
         return initialPoblation;
     }
@@ -71,7 +69,7 @@ public class TSPSolver {
                 candidates[lastPos] = 0;
                 remaining--;
             }
-        } while(!isAValidGenotype(r));
+        } while (!isAValidGenotype(r));
 
         return r;
     }
@@ -94,9 +92,65 @@ public class TSPSolver {
         return this.instance.getCost(src, dst) == 0;
     }
 
+    public int[][] parentSelectionProcess(int[][] poblation) {
+        int numberPar = N / (2 * 2);
+        int[][] parParents = new int[numberPar][2];
+
+        int[] individuals = new int[N];
+
+        for (int j = 0; j < parParents.length; j++) {
+
+            int parent = selectParentByTournament(individuals, poblation);
+            parParents[j][0] = parent;
+            individuals[parent] = 1;
+
+            parent = selectParentByTournament(individuals, poblation);
+            parParents[j][1] = parent;
+            individuals[parent] = 1;
+        }
+
+        return parParents;
+    }
+
+    private int selectParentByTournament(int[] individuals, int[][] poblation) {
+        int parentWinner = -1;
+        int parentFitness = Integer.MAX_VALUE;
+        int[] candidates = new int[k];
+
+        for (int i = 0; i < k; i++) {
+            int c;
+            do {
+                c = (int) (Math.random() * N);
+            }
+            while (individuals[c] != 0);
+            candidates[i] = c;
+            individuals[c] = 2;
+        }
+
+        for (int c:candidates) {
+            int candidateFitness = funcFitness(poblation[c]);
+            if (candidateFitness < parentFitness) {
+                parentWinner = c;
+                parentFitness = candidateFitness;
+            }
+            individuals[c] = 0;
+        }
+
+        return parentWinner;
+    }
+
+
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
      */
+    public int[] run() {
+        int[][] ip = generateInitialPoblation();
+        int[][] parParents = parentSelectionProcess(ip);
+
+        System.out.println(Arrays.deepToString(parParents));
+
+        return solution;
+    }
 
     /*
      * 4) Registrar en un archivo los resultados de cada ejecución realizada. Específicamente,
