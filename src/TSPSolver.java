@@ -5,6 +5,8 @@ public class TSPSolver {
 
     private int[] solution;
     private final TSPInstance instance;
+
+    private final CrossoverOperator crossover;
     private final int N;
     private final int m;
     private final double crossoverProbability;
@@ -21,9 +23,10 @@ public class TSPSolver {
      * inicial, probabilidad de cruce, probabilidad de mutación, condición de corte, etc.
      */
 
-    public TSPSolver(TSPInstance instance, int N, int m, double crossoverProbability, double mutationProbability,
+    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, int N, int m, double crossoverProbability, double mutationProbability,
                      int k, int n, int maxGenerations) {
         this.instance = instance;
+        this.crossover = crossover;
         this.N = N;
         this.m = m;
         this.crossoverProbability = crossoverProbability;
@@ -139,15 +142,25 @@ public class TSPSolver {
         return parentWinner;
     }
 
+    public int[][] crossoverOperation(int [][] parParents, int[][] poblation) {
+        int [][] parSons = new int[parParents.length][2];
+
+        return parSons;
+    }
 
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
      */
     public int[] run() {
         int[][] ip = generateInitialPoblation();
-        int[][] parParents = parentSelectionProcess(ip);
+        int generation = 1;
 
-        System.out.println(Arrays.deepToString(parParents));
+        while (generation <= maxGenerations) {
+            int[][] parParents = parentSelectionProcess(ip);
+            int[][] parSons = crossoverOperation(parParents, ip);
+
+            generation++;
+        }
 
         return solution;
     }
