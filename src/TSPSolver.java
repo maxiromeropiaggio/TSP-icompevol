@@ -143,7 +143,14 @@ public class TSPSolver {
     }
 
     public int[][] crossoverOperation(int [][] parParents, int[][] poblation) {
-        int [][] parSons = new int[parParents.length][2];
+        int[][] parSons = new int[parParents.length][2];
+
+        Vector<>
+
+        for (int = 0; i < parSons.length; i++) {
+            if (Math.random() < crossoverProbability)
+
+        }
 
         return parSons;
     }
