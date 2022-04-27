@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TSPManager {
@@ -20,7 +21,6 @@ public class TSPManager {
      */
 
     public TSPManager(String name, TSPInstance instance) {
-
     }
 
     public TSPInstance getInstance() {
@@ -38,9 +38,9 @@ public class TSPManager {
     public static void main(String[] args) {
         TSPInstance br17 = new TSPInstance("br17.atsp");
         CrossoverOrden crossoverOrden = new CrossoverOrden();
-        //System.out.println(br17);
+        System.out.println(br17);
         TSPSolver br17Solver = new TSPSolver(br17, crossoverOrden,100, 0, 0.0, 0.0, 10, 20, 100);
-        int[] s = br17Solver.run();
+        ArrayList<Integer> s = br17Solver.run();
 
         TSPInstance p43 = new TSPInstance("p43.atsp");
         //System.out.println(p43);

@@ -1,5 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class TSPInstance {
 
@@ -16,7 +18,7 @@ public class TSPInstance {
     private int DIMENSION;
     private String EDGE_WEIGHT_TYPE;
     private String EDGE_WEIGHT_FORMAT;
-    private int[][] EDGE_WEIGHT_SECTION;
+    private ArrayList<ArrayList<Integer>> EDGE_WEIGHT_SECTION;
 
     public TSPInstance(String file) {
         this.PATH = System.getenv("PWD") + "/instancias-TSP/" + file;
@@ -27,8 +29,8 @@ public class TSPInstance {
             this.NAME = ln.substring(5).replace(" ", "");
 
             // Skip TYPE and COMMENT.
-            ln = br.readLine();
-            ln = br.readLine();
+            br.readLine();
+            br.readLine();
 
             ln = br.readLine();
             this.DIMENSION = Integer.parseInt(ln.substring(10).replace(" ", ""));
@@ -39,22 +41,22 @@ public class TSPInstance {
             ln = br.readLine();
             this.EDGE_WEIGHT_FORMAT = ln.substring(19).replace(" ", "");
 
-            ln = br.readLine();
-            this.EDGE_WEIGHT_SECTION = new int[this.DIMENSION][this.DIMENSION];
+            br.readLine();
+            this.EDGE_WEIGHT_SECTION = new ArrayList<>();
 
             ln = br.readLine();
-            int i = 0;
+
             while (!ln.equals("EOF")) {
                 String[] arr_ln = ln.replace("    ", " ")
                         .replace("   ", " ")
                         .replace("  ", " ")
                         .substring(1)
                         .split(" ");
-                for (int j = 0; j < arr_ln.length; j++) {
-                    this.EDGE_WEIGHT_SECTION[i][j] = Integer.parseInt(arr_ln[j]);
-                }
+                ArrayList<Integer> last = new ArrayList<>();
+                this.EDGE_WEIGHT_SECTION.add(last);
+                for (String i: arr_ln)
+                    last.add(Integer.parseInt(i));
                 ln = br.readLine();
-                i++;
             }
             br.close();
 
@@ -67,17 +69,13 @@ public class TSPInstance {
         try {
             if (src == dst)
                 throw new RuntimeException();
-            return this.EDGE_WEIGHT_SECTION[src][dst];
+            return this.EDGE_WEIGHT_SECTION.get(src).get(dst);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("TSPInstance: the path does not exist. (" + src + ", " + dst + ")");
         } catch (RuntimeException e) {
             System.out.println("TSPInstance: source and destination are equals.");
         }
         return 0;
-    }
-
-    public String getPATH() {
-        return PATH;
     }
 
     public String getNAME() {
@@ -104,7 +102,7 @@ public class TSPInstance {
                 "EDGE_WEIGHT_TYPE: " + this.getEDGE_WEIGHT_TYPE() + "\n" +
                 "EDGE_WEIGHT_FORMAT: " + this.getEDGE_WEIGHT_FORMAT() + "\n" +
                 "EDGE_WEIGHT_SECTION:\n" +
-                Arrays.deepToString(this.EDGE_WEIGHT_SECTION);
+                this.EDGE_WEIGHT_SECTION;
     }
 
 }

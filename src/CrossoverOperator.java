@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public interface CrossoverOperator {
-    int[][] applyOperator(int[][] parParents);
+    ArrayList<Integer> applyOperator(ArrayList<Integer> parParents);
 }

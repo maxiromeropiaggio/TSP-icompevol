@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class TSPSolver {
 
-    private int[] solution;
+    private ArrayList<Integer> solution;
     private final TSPInstance instance;
 
     private final CrossoverOperator crossover;
@@ -36,58 +37,54 @@ public class TSPSolver {
         this.maxGenerations = maxGenerations;
     }
 
-    public int funcFitness(int[] s) {
+    public double funcFitness(ArrayList<Integer> s) {
         int r = 0;
-        for (int i = 0; i < s.length-1; i++)
+        int last = s.size()-1;
+        for (int i = 0; i < last; i++)
             r += instance.getCost(i, i+1);
-        r += instance.getCost(s.length-1, 0);
-        return r;
+        r += instance.getCost(last, 0);
+        return 1/r;
     }
 
-    public int[][] generateInitialPoblation() {
-        int[][] initialPoblation = new int[N][];
-        for (int i = 0; i < initialPoblation.length - m; i++)
-            initialPoblation[i] = generateRandomGenotype(this.instance.getDIMENSION());
+    public ArrayList<ArrayList<Integer>> generateInitialPoblation() {
+        ArrayList<ArrayList<Integer>> initialPoblation = new ArrayList<>();
+        for (int i = 0; i < N - m; i++)
+            initialPoblation.add(generateRandomGenotype(this.instance.getDIMENSION()));
 
-        for (int j = initialPoblation.length - m; j < initialPoblation.length; j++)
-            initialPoblation[j] = getGenotypeBySelectiveInitialization();
+        for (int j = N - m; j < N; j++)
+            initialPoblation.add(getGenotypeBySelectiveInitialization());
 
         return initialPoblation;
     }
 
-    private int[] generateRandomGenotype(int dim) {
-        int[] r = new int[dim];
+    private ArrayList<Integer> generateRandomGenotype(int dim) {
+        ArrayList<Integer> r;
         do {
-            int[] candidates = new int[dim];
-            for (int i = 0; i < candidates.length; i++)
-                candidates[i] = i;
-            int remaining = dim;
-
-            for (int i = 0; i < r.length; i++) {
-                int pos = (int) (Math.random() * remaining);
-                r[i] = candidates[pos];
-
-                int lastPos = remaining - 1;
-                candidates[pos] = candidates[lastPos];
-                candidates[lastPos] = 0;
-                remaining--;
+            ArrayList<Integer> candidates = new ArrayList<>();
+            for (int i = 0; i < dim; i++)
+                candidates.add(i);
+            r =  new ArrayList<>();
+            for (int i = 0; i < dim; i++) {
+                int pos = (int) (Math.random() * candidates.size());
+                r.add(candidates.get(pos));
+                candidates.remove(pos);
             }
         } while (!isAValidGenotype(r));
 
         return r;
     }
 
-    private int[] getGenotypeBySelectiveInitialization() {
+    private ArrayList<Integer> getGenotypeBySelectiveInitialization() {
         return null;
     }
 
-    private boolean isAValidGenotype(int[] genotype) {
-        if (isAValidPath(genotype[genotype.length-1], genotype[0]))
+    private boolean isAValidGenotype(ArrayList<Integer> genotype) {
+        if (isAValidPath(genotype.get(genotype.size()-1), genotype.get(0)))
             return false;
-        for (int i = 1; i < genotype.length; i++) {
-            if (isAValidPath(genotype[i-1], genotype[i]))
+        for (int i = 1; i < genotype.size(); i++)
+            if (isAValidPath(genotype.get(i-1), genotype.get(i)))
                 return false;
-        }
+
         return true;
     }
 
@@ -95,62 +92,63 @@ public class TSPSolver {
         return this.instance.getCost(src, dst) == 0;
     }
 
-    public int[][] parentSelectionProcess(int[][] poblation) {
-        int numberPar = N / (2 * 2);
-        int[][] parParents = new int[numberPar][2];
+    public ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> poblation) {
 
-        int[] individuals = new int[N];
+        ArrayList<ArrayList<Integer>> parParents = new ArrayList<>();
+        ArrayList<Integer> individuals = new ArrayList<>();
+        for (int i = 0; i < N; i++)
+            individuals.add(0);
 
-        for (int j = 0; j < parParents.length; j++) {
+        for (int j = 0; j < N / (2 * 2); j++) {
+
+            ArrayList<Integer> last = new ArrayList<>();
+            parParents.add(last);
 
             int parent = selectParentByTournament(individuals, poblation);
-            parParents[j][0] = parent;
-            individuals[parent] = 1;
+            last.add(parent);
+            individuals.set(parent, 1);
 
             parent = selectParentByTournament(individuals, poblation);
-            parParents[j][1] = parent;
-            individuals[parent] = 1;
+            last.add(parent);
+            individuals.set(parent, 1);
         }
 
         return parParents;
     }
 
-    private int selectParentByTournament(int[] individuals, int[][] poblation) {
+    private int selectParentByTournament(ArrayList<Integer> individuals, ArrayList<ArrayList<Integer>> poblation) {
         int parentWinner = -1;
-        int parentFitness = Integer.MAX_VALUE;
-        int[] candidates = new int[k];
+        double parentFitness = -1;
+        ArrayList<Integer> candidates = new ArrayList<>();
 
         for (int i = 0; i < k; i++) {
-            int c;
-            do {
-                c = (int) (Math.random() * N);
-            }
-            while (individuals[c] != 0);
-            candidates[i] = c;
-            individuals[c] = 2;
+            int posIndividual;
+            do
+                posIndividual = (int) (Math.random() * N);
+            while (individuals.get(posIndividual) != 0);
+
+            candidates.add(posIndividual);
+            individuals.set(posIndividual, 2);
         }
 
         for (int c:candidates) {
-            int candidateFitness = funcFitness(poblation[c]);
-            if (candidateFitness < parentFitness) {
+            double candidateFitness = funcFitness(poblation.get(c));
+            if (candidateFitness > parentFitness) {
                 parentWinner = c;
                 parentFitness = candidateFitness;
             }
-            individuals[c] = 0;
+            individuals.set(c, 0);
         }
 
         return parentWinner;
     }
 
-    public int[][] crossoverOperation(int [][] parParents, int[][] poblation) {
-        int[][] parSons = new int[parParents.length][2];
+    public ArrayList<ArrayList<Integer>> crossoverOperation(ArrayList<ArrayList<Integer>> parParents, ArrayList<ArrayList<Integer>> poblation) {
+        ArrayList<ArrayList<Integer>> parSons = new ArrayList<>();
 
-        Vector<>
-
-        for (int = 0; i < parSons.length; i++) {
+        for(ArrayList<Integer> pp: parParents)
             if (Math.random() < crossoverProbability)
-
-        }
+                parSons.add(this.crossover.applyOperator(pp));
 
         return parSons;
     }
@@ -158,13 +156,14 @@ public class TSPSolver {
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
      */
-    public int[] run() {
-        int[][] ip = generateInitialPoblation();
+    public ArrayList<Integer> run() {
+        ArrayList<ArrayList<Integer>> ip = generateInitialPoblation();
         int generation = 1;
 
-        while (generation <= maxGenerations) {
-            int[][] parParents = parentSelectionProcess(ip);
-            int[][] parSons = crossoverOperation(parParents, ip);
+        while (generation <= 1 /*maxGenerations*/) {
+            ArrayList<ArrayList<Integer>> parParents = parentSelectionProcess(ip);
+            System.out.println(parParents);
+            //ArrayList<ArrayList<Integer>> parSons = crossoverOperation(parParents, ip);
 
             generation++;
         }
