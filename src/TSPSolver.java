@@ -148,7 +148,7 @@ public class TSPSolver {
 
         for(ArrayList<Integer> pp: parParents)
             if (Math.random() < crossoverProbability)
-                parSons.add(this.crossover.applyOperator(pp));
+                parSons.addAll(this.crossover.applyOperator(pp, poblation));
 
         return parSons;
     }
@@ -163,8 +163,8 @@ public class TSPSolver {
         while (generation <= 1 /*maxGenerations*/) {
             ArrayList<ArrayList<Integer>> parParents = parentSelectionProcess(ip);
             System.out.println(parParents);
-            //ArrayList<ArrayList<Integer>> parSons = crossoverOperation(parParents, ip);
-
+            ArrayList<ArrayList<Integer>> parSons = crossoverOperation(parParents, ip);
+            System.out.println(parSons);
             generation++;
         }
 
