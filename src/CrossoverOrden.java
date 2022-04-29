@@ -49,8 +49,6 @@ public class CrossoverOrden implements CrossoverOperator {
      *  3. Al terminar la lista del padre 2, continuar con los primeros valores de la misma
      * 4. El segundo hijo es creado de manera análoga (pasos 2 y 3) invirtiendo el rol de los padres
      *
-     *
-     *
      * @param parParents
      * @param poblation
      * @return

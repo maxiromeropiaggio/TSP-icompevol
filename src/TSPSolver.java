@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class TSPSolver {
 
@@ -37,7 +35,7 @@ public class TSPSolver {
         this.maxGenerations = maxGenerations;
     }
 
-    public double funcFitness(ArrayList<Integer> s) {
+    private double funcFitness(ArrayList<Integer> s) {
         int r = 0;
         int last = s.size()-1;
         for (int i = 0; i < last; i++)
@@ -46,7 +44,7 @@ public class TSPSolver {
         return 1/r;
     }
 
-    public ArrayList<ArrayList<Integer>> generateInitialPoblation() {
+    private ArrayList<ArrayList<Integer>> generateInitialPoblation() {
         ArrayList<ArrayList<Integer>> initialPoblation = new ArrayList<>();
         for (int i = 0; i < N - m; i++)
             initialPoblation.add(generateRandomGenotype(this.instance.getDIMENSION()));
@@ -79,20 +77,20 @@ public class TSPSolver {
     }
 
     private boolean isAValidGenotype(ArrayList<Integer> genotype) {
-        if (isAValidPath(genotype.get(genotype.size()-1), genotype.get(0)))
+        if (isNotValidPath(genotype.get(genotype.size()-1), genotype.get(0)))
             return false;
         for (int i = 1; i < genotype.size(); i++)
-            if (isAValidPath(genotype.get(i-1), genotype.get(i)))
+            if (isNotValidPath(genotype.get(i-1), genotype.get(i)))
                 return false;
 
         return true;
     }
 
-    private boolean isAValidPath(int src, int dst) {
+    private boolean isNotValidPath(int src, int dst) {
         return this.instance.getCost(src, dst) == 0;
     }
 
-    public ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> poblation) {
+    private ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> poblation) {
 
         ArrayList<ArrayList<Integer>> parParents = new ArrayList<>();
         ArrayList<Integer> individuals = new ArrayList<>();
@@ -143,14 +141,18 @@ public class TSPSolver {
         return parentWinner;
     }
 
-    public ArrayList<ArrayList<Integer>> crossoverOperation(ArrayList<ArrayList<Integer>> parParents, ArrayList<ArrayList<Integer>> poblation) {
-        ArrayList<ArrayList<Integer>> parSons = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> crossoverOperation(ArrayList<ArrayList<Integer>> parParents, ArrayList<ArrayList<Integer>> poblation) {
+        ArrayList<ArrayList<Integer>> newSons = new ArrayList<>();
 
         for(ArrayList<Integer> pp: parParents)
-            if (Math.random() < crossoverProbability)
-                parSons.addAll(this.crossover.applyOperator(pp, poblation));
+            if (Math.random() < crossoverProbability) {
+                ArrayList<ArrayList<Integer>> sons = this.crossover.applyOperator(pp, poblation);
+                for (ArrayList<Integer> son: sons)
+                    if (isAValidGenotype(son))
+                        newSons.add(son);
+            }
 
-        return parSons;
+        return newSons;
     }
 
     /*
@@ -162,7 +164,6 @@ public class TSPSolver {
 
         while (generation <= 1 /*maxGenerations*/) {
             ArrayList<ArrayList<Integer>> parParents = parentSelectionProcess(ip);
-            System.out.println(parParents);
             ArrayList<ArrayList<Integer>> parSons = crossoverOperation(parParents, ip);
             System.out.println(parSons);
             generation++;
