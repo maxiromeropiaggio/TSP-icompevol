@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class TSPSolver {
 
@@ -6,6 +9,7 @@ public class TSPSolver {
     private final TSPInstance instance;
 
     private final CrossoverOperator crossover;
+    private final MutationOperator mutation;
     private final int N;
     private final int m;
     private final double crossoverProbability;
@@ -22,10 +26,11 @@ public class TSPSolver {
      * inicial, probabilidad de cruce, probabilidad de mutación, condición de corte, etc.
      */
 
-    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, int N, int m, double crossoverProbability, double mutationProbability,
+    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, MutationOperator mutation, int N, int m, double crossoverProbability, double mutationProbability,
                      int k, int n, int maxGenerations) {
         this.instance = instance;
         this.crossover = crossover;
+        this.mutation = mutation;
         this.N = N;
         this.m = m;
         this.crossoverProbability = crossoverProbability;
@@ -35,7 +40,7 @@ public class TSPSolver {
         this.maxGenerations = maxGenerations;
     }
 
-    private double funcFitness(ArrayList<Integer> s) {
+    public double funcFitness(ArrayList<Integer> s) {
         int r = 0;
         int last = s.size()-1;
         for (int i = 0; i < last; i++)
@@ -44,15 +49,15 @@ public class TSPSolver {
         return 1/r;
     }
 
-    private ArrayList<ArrayList<Integer>> generateInitialPoblation() {
-        ArrayList<ArrayList<Integer>> initialPoblation = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> generateInitialPopulation() {
+        ArrayList<ArrayList<Integer>> initialPopulation = new ArrayList<>();
         for (int i = 0; i < N - m; i++)
-            initialPoblation.add(generateRandomGenotype(this.instance.getDIMENSION()));
+            initialPopulation.add(generateRandomGenotype(this.instance.getDIMENSION()));
 
         for (int j = N - m; j < N; j++)
-            initialPoblation.add(getGenotypeBySelectiveInitialization());
+            initialPopulation.add(getGenotypeBySelectiveInitialization());
 
-        return initialPoblation;
+        return initialPopulation;
     }
 
     private ArrayList<Integer> generateRandomGenotype(int dim) {
@@ -90,9 +95,9 @@ public class TSPSolver {
         return this.instance.getCost(src, dst) == 0;
     }
 
-    private ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> poblation) {
+    private ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> population) {
 
-        ArrayList<ArrayList<Integer>> parParents = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> pairParents = new ArrayList<>();
         ArrayList<Integer> individuals = new ArrayList<>();
         for (int i = 0; i < N; i++)
             individuals.add(0);
@@ -100,21 +105,21 @@ public class TSPSolver {
         for (int j = 0; j < N / (2 * 2); j++) {
 
             ArrayList<Integer> last = new ArrayList<>();
-            parParents.add(last);
+            pairParents.add(last);
 
-            int parent = selectParentByTournament(individuals, poblation);
+            int parent = selectParentByTournament(individuals, population);
             last.add(parent);
             individuals.set(parent, 1);
 
-            parent = selectParentByTournament(individuals, poblation);
+            parent = selectParentByTournament(individuals, population);
             last.add(parent);
             individuals.set(parent, 1);
         }
 
-        return parParents;
+        return pairParents;
     }
 
-    private int selectParentByTournament(ArrayList<Integer> individuals, ArrayList<ArrayList<Integer>> poblation) {
+    private int selectParentByTournament(ArrayList<Integer> individuals, ArrayList<ArrayList<Integer>> population) {
         int parentWinner = -1;
         double parentFitness = -1;
         ArrayList<Integer> candidates = new ArrayList<>();
@@ -130,7 +135,7 @@ public class TSPSolver {
         }
 
         for (int c:candidates) {
-            double candidateFitness = funcFitness(poblation.get(c));
+            double candidateFitness = funcFitness(population.get(c));
             if (candidateFitness > parentFitness) {
                 parentWinner = c;
                 parentFitness = candidateFitness;
@@ -141,12 +146,12 @@ public class TSPSolver {
         return parentWinner;
     }
 
-    private ArrayList<ArrayList<Integer>> crossoverOperation(ArrayList<ArrayList<Integer>> parParents, ArrayList<ArrayList<Integer>> poblation) {
+    private ArrayList<ArrayList<Integer>> crossoverOperation(ArrayList<ArrayList<Integer>> pairParents, ArrayList<ArrayList<Integer>> population) {
         ArrayList<ArrayList<Integer>> newSons = new ArrayList<>();
 
-        for(ArrayList<Integer> pp: parParents)
+        for (ArrayList<Integer> pp: pairParents)
             if (Math.random() < crossoverProbability) {
-                ArrayList<ArrayList<Integer>> sons = this.crossover.applyOperator(pp, poblation);
+                ArrayList<ArrayList<Integer>> sons = this.crossover.applyOperator(pp, population);
                 for (ArrayList<Integer> son: sons)
                     if (isAValidGenotype(son))
                         newSons.add(son);
@@ -155,17 +160,53 @@ public class TSPSolver {
         return newSons;
     }
 
+    private void mutationOperation(ArrayList<ArrayList<Integer>> pop) {
+        for (ArrayList<Integer> p: pop)
+            if (Math.random() < mutationProbability) {
+                ArrayList<Integer> backup = new ArrayList<>(p);
+                mutation.applyOperator(p);
+                if (!isAValidGenotype(p))
+                    p = backup;
+            }
+    }
+
+    /**
+     *
+     * Steady-State: los n peores individuos de la población actual son reemplazados por los n mejores hijos de dicha
+     * población. Con este mecanismo se incrementa muy rápido (en pocas generaciones) el nivel de fitness de
+     * la población pero puede llevar a una convergencia prematura. Por este motivo, generalmente es utilizado en
+     * combinación con poblaciones grandes y/o con una política de no permitir duplicados.
+     *
+     * @param population
+     * @param sons
+     * @return
+     */
+
+    private ArrayList<ArrayList<Integer>> selectionOfSurvivors(ArrayList<ArrayList<Integer>> population,
+                                                               ArrayList<ArrayList<Integer>> sons) {
+
+        population.sort(Comparator.comparingDouble(this::funcFitness));
+        sons.sort(Comparator.comparingDouble(this::funcFitness));
+
+        return null;
+    }
+
+
+
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
      */
     public ArrayList<Integer> run() {
-        ArrayList<ArrayList<Integer>> ip = generateInitialPoblation();
+        ArrayList<ArrayList<Integer>> population = generateInitialPopulation();
+
         int generation = 1;
 
         while (generation <= 1 /*maxGenerations*/) {
-            ArrayList<ArrayList<Integer>> parParents = parentSelectionProcess(ip);
-            ArrayList<ArrayList<Integer>> parSons = crossoverOperation(parParents, ip);
-            System.out.println(parSons);
+            ArrayList<ArrayList<Integer>> pairParents = parentSelectionProcess(population);
+            ArrayList<ArrayList<Integer>> sons = crossoverOperation(pairParents, population);
+            mutationOperation(sons);
+            population = selectionOfSurvivors(population, sons);
+
             generation++;
         }
 

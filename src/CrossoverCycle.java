@@ -18,14 +18,15 @@ public class CrossoverCycle implements CrossoverOperator {
      * hijo 1 (hijo 2) respetando las posiciones que ellos tienen en el P2
      * (P1)
      *
-     * @param parParents
-     * @param poblation
+     * @param pairParents
+     * @param population
      * @return
      */
     @Override
-    public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> parParents, ArrayList<ArrayList<Integer>> poblation) {
+    public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> pairParents,
+                                                       ArrayList<ArrayList<Integer>> population) {
 
-        int dim = poblation.get(0).size();
+        int dim = population.get(0).size();
 
         ArrayList<ArrayList<Integer>> sons = new ArrayList<>();
         sons.add(new ArrayList<>());
@@ -38,8 +39,8 @@ public class CrossoverCycle implements CrossoverOperator {
             son2.add(-1);
         }
 
-        ArrayList<Integer> parent1 = poblation.get(parParents.get(0));
-        ArrayList<Integer> parent2 = poblation.get(parParents.get(1));
+        ArrayList<Integer> parent1 = population.get(pairParents.get(0));
+        ArrayList<Integer> parent2 = population.get(pairParents.get(1));
 
         ArrayList<ArrayList<Integer>> posAllCycles = new ArrayList<>();
 
@@ -76,11 +77,8 @@ public class CrossoverCycle implements CrossoverOperator {
 
         } while (Collections.min(valuesUsed) == 0);
 
-        for (int j = 0; j < posAllCycles.size(); j++) {
-            ArrayList<Integer> posCycle = posAllCycles.get(j);
-
-            for (int i = 0; i < posCycle.size(); i++) {
-                int posValue = posCycle.get(i);
+        for (ArrayList<Integer> posCycle : posAllCycles) {
+            for (Integer posValue : posCycle) {
 
                 int valueSon1 = parent1.get(posValue);
                 int valueSon2 = parent2.get(posValue);

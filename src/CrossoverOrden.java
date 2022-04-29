@@ -3,7 +3,8 @@ import java.util.ArrayList;
 public class CrossoverOrden implements CrossoverOperator {
 
 
-    private ArrayList<Integer> crossAndGetSon(ArrayList<Integer> parent1, ArrayList<Integer> parent2, int crossPoint1, int crossPoint2) {
+    private ArrayList<Integer> crossAndGetSon(ArrayList<Integer> parent1, ArrayList<Integer> parent2,
+                                              int crossPoint1, int crossPoint2) {
 
         ArrayList<Integer> son = new ArrayList<>();
 
@@ -49,22 +50,22 @@ public class CrossoverOrden implements CrossoverOperator {
      *  3. Al terminar la lista del padre 2, continuar con los primeros valores de la misma
      * 4. El segundo hijo es creado de manera análoga (pasos 2 y 3) invirtiendo el rol de los padres
      *
-     * @param parParents
-     * @param poblation
+     * @param pairParents
+     * @param population
      * @return
      */
 
     @Override
-    public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> parParents, ArrayList<ArrayList<Integer>> poblation) {
+    public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> pairParents, ArrayList<ArrayList<Integer>> population) {
 
-        int dim = poblation.get(0).size();
+        int dim = population.get(0).size();
         int crossPoint1 = (int) (Math.random() * dim);
         int crossPoint2 = (int) (Math.random() * dim);
 
         ArrayList<ArrayList<Integer>> sons = new ArrayList<>();
 
-        ArrayList<Integer> parentA = poblation.get(parParents.get(0));
-        ArrayList<Integer> parentB = poblation.get(parParents.get(1));
+        ArrayList<Integer> parentA = population.get(pairParents.get(0));
+        ArrayList<Integer> parentB = population.get(pairParents.get(1));
 
         if (crossPoint1 > crossPoint2) {
             int tmp = crossPoint2;

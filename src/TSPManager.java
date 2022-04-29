@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TSPManager {
     private TSPInstance instance;
@@ -39,12 +38,13 @@ public class TSPManager {
         TSPInstance br17 = new TSPInstance("br17.atsp");
         CrossoverOrden crossoverOrden = new CrossoverOrden();
         CrossoverCycle crossoverCycle = new CrossoverCycle();
-        //System.out.println(br17);
-        TSPSolver br17Solver = new TSPSolver(br17, /*crossoverOrden*/ crossoverCycle,100, 0, 0.6, 0.0, 10, 20, 100);
+        MutationInsertion mutationInsertion = new MutationInsertion();
+        MutationInversion mutationInversion = new MutationInversion();
+
+        TSPSolver br17Solver = new TSPSolver(br17, crossoverCycle, mutationInsertion,100, 0, 0.84, 0.12, 10, 20, 120);
         ArrayList<Integer> s = br17Solver.run();
 
         TSPInstance p43 = new TSPInstance("p43.atsp");
-        //System.out.println(p43);
     }
 
 }
