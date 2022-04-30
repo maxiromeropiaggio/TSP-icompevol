@@ -1,6 +1,10 @@
+package crossover;
+
 import java.util.ArrayList;
 
 public class CrossoverOrden implements CrossoverOperator {
+
+    public static final String NAME = "orden";
 
 
     private ArrayList<Integer> crossAndGetSon(ArrayList<Integer> parent1, ArrayList<Integer> parent2,
@@ -55,7 +59,6 @@ public class CrossoverOrden implements CrossoverOperator {
      * @return
      */
 
-    @Override
     public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> pairParents, ArrayList<ArrayList<Integer>> population) {
 
         int dim = population.get(0).size();

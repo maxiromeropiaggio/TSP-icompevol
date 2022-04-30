@@ -1,6 +1,10 @@
+package mutation;
+
 import java.util.ArrayList;
 
 public class MutationInsertion implements MutationOperator {
+
+    public static final String NAME = "insertion";
 
     /**
      *
@@ -15,7 +19,7 @@ public class MutationInsertion implements MutationOperator {
     @Override
     public void applyOperator(ArrayList<Integer> p) {
 
-        int p1 = (int) (Math.random() * p.size());
+        int p1 = (int) (Math.random() * p.size()-1);
         int p2 = (int) (Math.random() * p.size());
 
         if (p1 > p2) {

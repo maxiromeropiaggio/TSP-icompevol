@@ -1,0 +1,13 @@
+{
+  "name": "Experiment",
+  "instance": "br17.atsp",
+  "crossover": "orden",
+  "mutation": "insertion",
+  "N": 100,
+  "m": 0,
+  "crossoverProbability": 0.84,
+  "mutationProbability": 0.12,
+  "k": 10,
+  "n": 20,
+  "maxGenerations": 120
+}

@@ -1,7 +1,11 @@
+package crossover;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class CrossoverCycle implements CrossoverOperator {
+
+    public static final String NAME = "cycle";
 
     /**
      *

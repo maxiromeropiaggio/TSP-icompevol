@@ -14,8 +14,33 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TSPManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="43" column="115" selection-start-line="43" selection-start-column="115" selection-end-line="43" selection-end-column="115" />
+            <state relative-caret-position="224">
+              <caret line="123" column="25" selection-start-line="123" selection-start-column="25" selection-end-line="123" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#TSPManager#0;class#TSPManager#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mutation/MutationInsertion.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="29">
+              <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
+              <folding>
+                <element signature="docComment;method#applyOperator#0;class#MutationInsertion#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="194">
+              <caret line="18" column="22" lean-forward="true" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -23,8 +48,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TSPSolver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="188" column="65" lean-forward="true" selection-start-line="188" selection-start-column="65" selection-end-line="188" selection-end-column="65" />
+            <state relative-caret-position="-44">
+              <caret line="98" lean-forward="true" selection-start-line="98" selection-end-line="98" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#TSPSolver#0;class#TSPSolver#0" />
@@ -36,8 +61,42 @@
                 <element signature="method#selectParentByTournament#0;class#TSPSolver#0" />
                 <element signature="method#crossoverOperation#0;class#TSPSolver#0" />
                 <element signature="method#mutationOperation#0;class#TSPSolver#0" />
+                <element signature="docComment;method#selectionOfSurvivors#0;class#TSPSolver#0" />
+                <element signature="method#selectionOfSurvivors#0;class#TSPSolver#0" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/experiments/tsp1.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/result_Experiment">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="5" selection-start-column="5" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/instancias-TSP/br17.atsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-82" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/instancias-TSP/p43.atsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-90" />
           </provider>
         </entry>
       </file>
@@ -54,6 +113,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>poblation</find>
+      <find>-1</find>
     </findStrings>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -62,17 +122,27 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/MutationOperator.java" />
         <option value="$PROJECT_DIR$/src/MutationInsertion.java" />
-        <option value="$PROJECT_DIR$/src/TSPManager.java" />
         <option value="$PROJECT_DIR$/src/TSPInstance.java" />
         <option value="$PROJECT_DIR$/src/MutationInversion.java" />
         <option value="$PROJECT_DIR$/src/CrossoverCycle.java" />
+        <option value="$PROJECT_DIR$/src/GenotypeComparator.java" />
+        <option value="$PROJECT_DIR$/tsp1.json" />
+        <option value="$PROJECT_DIR$/experiments/tsp2.json" />
+        <option value="$PROJECT_DIR$/TSP-icompevol.iml" />
         <option value="$PROJECT_DIR$/src/CrossoverOperator.java" />
         <option value="$PROJECT_DIR$/src/CrossoverOrden.java" />
-        <option value="$PROJECT_DIR$/src/GenotypeComparator.java" />
+        <option value="$PROJECT_DIR$/src/crossover/CrossoverBuilder.java" />
+        <option value="$PROJECT_DIR$/src/crossover/CrossoverCycle.java" />
+        <option value="$PROJECT_DIR$/src/crossover/CrossoverOrden.java" />
+        <option value="$PROJECT_DIR$/src/mutation/MutationInversion.java" />
+        <option value="$PROJECT_DIR$/src/crossover/CrossoverOperator.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/mutation/MutationInsertion.java" />
+        <option value="$PROJECT_DIR$/src/TSPManager.java" />
+        <option value="$PROJECT_DIR$/experiments/tsp1.json" />
         <option value="$PROJECT_DIR$/src/TSPSolver.java" />
       </list>
     </option>
@@ -88,6 +158,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -98,20 +170,33 @@
             <path>
               <item name="TSP-icompevol" type="b2602c69:ProjectViewProjectNode" />
               <item name="TSP-icompevol" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="experiments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TSP-icompevol" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TSP-icompevol" type="462c0819:PsiDirectoryNode" />
+              <item name="instancias-TSP" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/json-simple-1.1.1.jar!/" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="mutation" />
+      <recent name="crossover" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/experiments" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -125,11 +210,11 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TSPManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="TSP-icompevol" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="PROGRAM_PARAMETERS" value="tsp1.json" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -157,14 +242,34 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.TSPManager" />
       </list>
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="-5" width="1376" height="747" extended-state="6" />
-    <editor active="true" />
     <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17100371" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.19224556" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.42164782" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32956383" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.32956383" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+    </layout>
+    <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17100371" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
@@ -183,15 +288,24 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/TSPManager.java</url>
+          <line>114</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TSP-icompevol.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -199,40 +313,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MutationOperator.java">
+    <entry file="file://$PROJECT_DIR$/src/mutation/MutationOperator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="22" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TSPInstance.java">
+    <entry file="file://$PROJECT_DIR$/src/GenotypeComparator.java" />
+    <entry file="file://$PROJECT_DIR$/experiments/tsp2.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="1" column="27" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
-          <folding>
-            <element signature="method#TSPInstance#0;class#TSPInstance#0" />
-            <element signature="method#getCost#0;class#TSPInstance#0" />
-            <element signature="method#toString#0;class#TSPInstance#0" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/TSP-icompevol.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="55" selection-start-line="8" selection-start-column="55" selection-end-line="8" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/json-simple-1.1.1.jar!/org/json/simple/JSONObject.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/crossover/CrossoverBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mutation/MutationInversion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
           <folding>
-            <element signature="e#63#64#0" expanded="true" />
-            <element signature="e#113#114#0" expanded="true" />
+            <element signature="docComment;method#applyOperator#0;class#MutationInversion#0" />
+            <element signature="method#applyOperator#0;class#MutationInversion#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CrossoverCycle.java">
+    <entry file="file://$PROJECT_DIR$/src/crossover/CrossoverCycle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="26" column="97" selection-start-line="26" selection-start-column="97" selection-end-line="26" selection-end-column="97" />
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="docComment;method#applyOperator#0;class#CrossoverCycle#0" />
             <element signature="method#applyOperator#0;class#CrossoverCycle#0" />
@@ -240,17 +371,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CrossoverOperator.java">
+    <entry file="file://$PROJECT_DIR$/src/crossover/CrossoverOrden.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="48" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CrossoverOrden.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="58" column="129" selection-start-line="58" selection-start-column="129" selection-end-line="58" selection-end-column="129" />
+        <state relative-caret-position="90">
+          <caret line="6" column="46" lean-forward="true" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
           <folding>
             <element signature="method#crossAndGetSon#0;class#CrossoverOrden#0" />
             <element signature="docComment;method#applyOperator#0;class#CrossoverOrden#0" />
@@ -259,43 +383,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MutationInversion.java">
+    <entry file="file://$PROJECT_DIR$/src/crossover/CrossoverOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        <state relative-caret-position="90">
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MutationInsertion.java">
+    <entry file="file://$PROJECT_DIR$/src/TSPInstance.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="195">
+          <caret line="23" column="55" selection-start-line="22" selection-start-column="8" selection-end-line="23" selection-end-column="55" />
+          <folding>
+            <element signature="method#getCost#0;class#TSPInstance#0" />
+            <element signature="method#toString#0;class#TSPInstance#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="18" column="22" lean-forward="true" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mutation/MutationInsertion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
+          <folding>
+            <element signature="docComment;method#applyOperator#0;class#MutationInsertion#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TSPManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="43" column="115" selection-start-line="43" selection-start-column="115" selection-end-line="43" selection-end-column="115" />
+        <state relative-caret-position="224">
+          <caret line="123" column="25" selection-start-line="123" selection-start-column="25" selection-end-line="123" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#TSPManager#0;class#TSPManager#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GenotypeComparator.java">
+    <entry file="file://$PROJECT_DIR$/result_Experiment">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#244#245#0" expanded="true" />
-            <element signature="e#265#266#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/instancias-TSP/p43.atsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-90" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/instancias-TSP/br17.atsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-82" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/tsp1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TSPSolver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="188" column="65" lean-forward="true" selection-start-line="188" selection-start-column="65" selection-end-line="188" selection-end-column="65" />
+        <state relative-caret-position="-44">
+          <caret line="98" lean-forward="true" selection-start-line="98" selection-end-line="98" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#TSPSolver#0;class#TSPSolver#0" />
@@ -307,6 +468,8 @@
             <element signature="method#selectParentByTournament#0;class#TSPSolver#0" />
             <element signature="method#crossoverOperation#0;class#TSPSolver#0" />
             <element signature="method#mutationOperation#0;class#TSPSolver#0" />
+            <element signature="docComment;method#selectionOfSurvivors#0;class#TSPSolver#0" />
+            <element signature="method#selectionOfSurvivors#0;class#TSPSolver#0" />
           </folding>
         </state>
       </provider>
@@ -364,6 +527,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>json-simple-1.1.1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -1,11 +1,11 @@
+import crossover.CrossoverOperator;
+import mutation.MutationOperator;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class TSPSolver {
 
-    private ArrayList<Integer> solution;
     private final TSPInstance instance;
 
     private final CrossoverOperator crossover;
@@ -16,7 +16,13 @@ public class TSPSolver {
     private final double mutationProbability;
     private final int k;
     private final int n;
-    private final int maxGenerations;
+
+    /*
+    For each iteration
+    private int numberFailsValidSons
+    private int numberFailsInitialGenotype
+    private int numberFailsValidMutations
+     */
 
 
     /*
@@ -26,8 +32,8 @@ public class TSPSolver {
      * inicial, probabilidad de cruce, probabilidad de mutación, condición de corte, etc.
      */
 
-    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, MutationOperator mutation, int N, int m, double crossoverProbability, double mutationProbability,
-                     int k, int n, int maxGenerations) {
+    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, MutationOperator mutation, int N, int m,
+                     double crossoverProbability, double mutationProbability, int k, int n) {
         this.instance = instance;
         this.crossover = crossover;
         this.mutation = mutation;
@@ -37,7 +43,6 @@ public class TSPSolver {
         this.mutationProbability = mutationProbability;
         this.k = k;
         this.n = n;
-        this.maxGenerations = maxGenerations;
     }
 
     public double funcFitness(ArrayList<Integer> s) {
@@ -46,10 +51,10 @@ public class TSPSolver {
         for (int i = 0; i < last; i++)
             r += instance.getCost(i, i+1);
         r += instance.getCost(last, 0);
-        return 1/r;
+        return (double) 1/r;
     }
 
-    private ArrayList<ArrayList<Integer>> generateInitialPopulation() {
+    public ArrayList<ArrayList<Integer>> generateInitialPopulation() {
         ArrayList<ArrayList<Integer>> initialPopulation = new ArrayList<>();
         for (int i = 0; i < N - m; i++)
             initialPopulation.add(generateRandomGenotype(this.instance.getDIMENSION()));
@@ -161,12 +166,12 @@ public class TSPSolver {
     }
 
     private void mutationOperation(ArrayList<ArrayList<Integer>> pop) {
-        for (ArrayList<Integer> p: pop)
+        for (ArrayList<Integer> p : pop)
             if (Math.random() < mutationProbability) {
-                ArrayList<Integer> backup = new ArrayList<>(p);
-                mutation.applyOperator(p);
-                if (!isAValidGenotype(p))
-                    p = backup;
+                ArrayList<Integer> pm = new ArrayList<>(p);
+                mutation.applyOperator(pm);
+                if (isAValidGenotype(pm))
+                    p = pm;
             }
     }
 
@@ -182,46 +187,47 @@ public class TSPSolver {
      * @return
      */
 
-    private ArrayList<ArrayList<Integer>> selectionOfSurvivors(ArrayList<ArrayList<Integer>> population,
+    private void selectionOfSurvivors(ArrayList<ArrayList<Integer>> population,
                                                                ArrayList<ArrayList<Integer>> sons) {
 
         population.sort(Comparator.comparingDouble(this::funcFitness));
         sons.sort(Comparator.comparingDouble(this::funcFitness));
 
-        return null;
+        int s = n;
+        if ((sons.size() < n)) {
+            s = sons.size();
+        }
+
+        int i = population.size()-1;
+        int replaces = 0;
+        for (int j = 0; j < sons.size() && replaces < s; j++) {
+            ArrayList<Integer> son = sons.get(j);
+            if (!hasThatGenotype(population, son)) {
+                population.set(i, son);
+                replaces++;
+                i--;
+            }
+        }
     }
 
+    private boolean hasThatGenotype(ArrayList<ArrayList<Integer>> population, ArrayList<Integer> son) {
 
+        return false;
+    }
 
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
      */
-    public ArrayList<Integer> run() {
-        ArrayList<ArrayList<Integer>> population = generateInitialPopulation();
+    public ArrayList<Integer> iterateGeneration(ArrayList<ArrayList<Integer>> population) {
 
-        int generation = 1;
+        ArrayList<ArrayList<Integer>> pairParents = parentSelectionProcess(population);
+        ArrayList<ArrayList<Integer>> sons = crossoverOperation(pairParents, population);
+        mutationOperation(sons);
 
-        while (generation <= 1 /*maxGenerations*/) {
-            ArrayList<ArrayList<Integer>> pairParents = parentSelectionProcess(population);
-            ArrayList<ArrayList<Integer>> sons = crossoverOperation(pairParents, population);
-            mutationOperation(sons);
-            population = selectionOfSurvivors(population, sons);
+        selectionOfSurvivors(population, sons);
 
-            generation++;
-        }
+        population.sort(Comparator.comparingDouble(this::funcFitness));
 
-        return solution;
+        return population.get(0);
     }
-
-    /*
-     * 4) Registrar en un archivo los resultados de cada ejecución realizada. Específicamente,
-     * luego de realizar una ejecución, la aplicación debería permitir que se registre en un
-     * archivo la siguiente información: configuración del algoritmo evolutivo (detallar qué
-     * componentes y qué valores de parámetros fueron utilizados para ejecutar al algoritmo),
-     * evolución del fitness a lo largo del tiempo (registrar el mejor fitness obtenido en cada
-     * generación o iteración), mejor solución lograda al finalizar la ejecución (describir la
-     * composición de la mejor solución lograda y su valor de fitness), y tiempo requerido por
-     * la ejecución.
-     */
-
 }

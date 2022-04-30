@@ -1,6 +1,10 @@
+package mutation;
+
 import java.util.ArrayList;
 
 public class MutationInversion implements MutationOperator {
+
+    public static final String NAME = "inversion";
 
     /**
      *
