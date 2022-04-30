@@ -1,14 +1,15 @@
+package tsp;
+
 import java.io.*;
 import java.util.ArrayList;
 
 import crossover.*;
-import mutation.MutationInsertion;
-import mutation.MutationInversion;
-import mutation.MutationOperator;
+import mutation.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import survivors.*;
 
 public class TSPManager implements Runnable {
 
@@ -17,6 +18,7 @@ public class TSPManager implements Runnable {
     public String name;
     private String crossover;
     private String mutation;
+    private String survivors;
     private int N;
     private int m;
     private double crossoverProbability;
@@ -41,6 +43,7 @@ public class TSPManager implements Runnable {
 
             crossover = (String) tsp.get("crossover");
             mutation = (String) tsp.get("mutation");
+            survivors = (String) tsp.get("survivors");
             N = Math.toIntExact((long) tsp.get("N"));
             m = Math.toIntExact((long) tsp.get("m"));
             crossoverProbability = (double) tsp.get("crossoverProbability");
@@ -61,8 +64,19 @@ public class TSPManager implements Runnable {
             else /*if (mutation.equals(MutationInversion.NAME))*/
                 mutationOperator = new MutationInversion();
 
-            solver = new TSPSolver(instance, crossoverOperator, mutationOperator, N, m, crossoverProbability,
-                    mutationProbability, k, n);
+            solver = new TSPSolver(instance, crossoverOperator, mutationOperator, N, m,
+                    crossoverProbability, mutationProbability, k, n);
+
+            SurvivorsOperator survivorsOperator;
+            if (survivors.equals(SteadyState.NAME)) {
+                survivorsOperator = new SteadyState();
+                ((SteadyState)survivorsOperator).setSolver(solver);
+            }
+            else
+                survivorsOperator = new RandomReplacement();
+
+            solver.setSurvivorsOperator(survivorsOperator);
+
 
         } catch (IOException e) {
             System.err.println("TSPManager: file not found. Please re-try and be sure of input path.");
@@ -85,18 +99,16 @@ public class TSPManager implements Runnable {
 
     public void run() {
 
-        long startTime = System.nanoTime();
-
-        ArrayList<ArrayList<Integer>> population = solver.generateInitialPopulation();
-
-        int generation = 1;
-
         JSONObject register = new JSONObject();
+        JSONArray bestSolutions = new JSONArray();
+        ArrayList<Integer> best = null;
+        double bestFitness = -1;
 
         register.put("name", name);
         register.put("instance", instance.getNAME());
         register.put("crossover", crossover);
         register.put("mutation", mutation);
+        register.put("survivors", survivors);
         register.put("N", N);
         register.put("m", m);
         register.put("crossoverProbability", crossoverProbability);
@@ -106,16 +118,16 @@ public class TSPManager implements Runnable {
         register.put("maxGenerations", maxGenerations);
         register.put("initialPopulation", "random");
         register.put("selectionParentProcess", "tournament");
-        register.put("selectionOfSurvivors", "steady-state");
 
-        JSONArray bestSolutions = new JSONArray();
-        ArrayList<Integer> best = null;
-        double bestFitness = -1;
+        long startTime = System.nanoTime();
+        ArrayList<ArrayList<Integer>> population = solver.generateInitialPopulation();
+        int generation = 1;
 
         while (generation <= maxGenerations) {
             JSONArray bestSolutionPerInteration = new JSONArray();
             best = solver.iterateGeneration(population);
             bestFitness = solver.funcFitness(best);
+
 
             bestSolutionPerInteration.add(best);
             bestSolutionPerInteration.add(bestFitness);
@@ -124,13 +136,20 @@ public class TSPManager implements Runnable {
             generation++;
         }
 
+        long endTime = System.nanoTime();
+
         register.put("bestSolutions", bestSolutions);
         register.put("best", best);
         register.put("bestFitness", bestFitness);
-
-        long endTime = System.nanoTime();
-
         register.put("time", (endTime - startTime)/1e6); //ms
+
+        System.out.println("crossover");
+        System.out.println("exitos: " + solver.exitos);
+        System.out.println("total: " + solver.total);
+
+        System.out.println("mutation");
+        System.out.println("total: " + solver.exitos_m);
+        System.out.println("total: " + solver.total_m);
 
         try (FileWriter fw = new FileWriter("result_" + name)) {
             BufferedWriter bw = new BufferedWriter(fw);
@@ -139,7 +158,7 @@ public class TSPManager implements Runnable {
             bw.close();
 
         } catch (IOException e) {
-            System.err.println("TSPManager: file not found. Please re-try and be sure of input path.");
+            System.err.println("tsp.TSPManager: file not found. Please re-try and be sure of input path.");
         }
 
     }

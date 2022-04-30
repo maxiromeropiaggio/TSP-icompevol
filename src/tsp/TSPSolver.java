@@ -1,5 +1,8 @@
+package tsp;
+
 import crossover.CrossoverOperator;
 import mutation.MutationOperator;
+import survivors.SurvivorsOperator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,20 +13,17 @@ public class TSPSolver {
 
     private final CrossoverOperator crossover;
     private final MutationOperator mutation;
+    private SurvivorsOperator survivors;
     private final int N;
     private final int m;
     private final double crossoverProbability;
     private final double mutationProbability;
     private final int k;
     private final int n;
-
-    /*
-    For each iteration
-    private int numberFailsValidSons
-    private int numberFailsInitialGenotype
-    private int numberFailsValidMutations
-     */
-
+    public int exitos = 0;
+    public int total = 0;
+    public int exitos_m = 0;
+    public int total_m = 0;
 
     /*
      * 2) Configurar los distintos parámetros y componentes del algoritmo evolutivo (método
@@ -45,19 +45,23 @@ public class TSPSolver {
         this.n = n;
     }
 
+    public void setSurvivorsOperator(SurvivorsOperator survivors) {
+        this.survivors = survivors;
+    }
+
     public double funcFitness(ArrayList<Integer> s) {
-        int r = 0;
-        int last = s.size()-1;
-        for (int i = 0; i < last; i++)
-            r += instance.getCost(i, i+1);
-        r += instance.getCost(last, 0);
+
+        int r = instance.getCost(s.get(s.size()-1), s.get(0));
+        for (int i = 1; i < s.size(); i++)
+            r += instance.getCost(s.get(i-1), s.get(i));
+
         return (double) 1/r;
     }
 
     public ArrayList<ArrayList<Integer>> generateInitialPopulation() {
         ArrayList<ArrayList<Integer>> initialPopulation = new ArrayList<>();
         for (int i = 0; i < N - m; i++)
-            initialPopulation.add(generateRandomGenotype(this.instance.getDIMENSION()));
+            initialPopulation.add(generateRandomGenotype());
 
         for (int j = N - m; j < N; j++)
             initialPopulation.add(getGenotypeBySelectiveInitialization());
@@ -65,8 +69,10 @@ public class TSPSolver {
         return initialPopulation;
     }
 
-    private ArrayList<Integer> generateRandomGenotype(int dim) {
+    private ArrayList<Integer> generateRandomGenotype() {
         ArrayList<Integer> r;
+        int dim = this.instance.getDIMENSION();
+
         do {
             ArrayList<Integer> candidates = new ArrayList<>();
             for (int i = 0; i < dim; i++)
@@ -87,17 +93,17 @@ public class TSPSolver {
     }
 
     private boolean isAValidGenotype(ArrayList<Integer> genotype) {
-        if (isNotValidPath(genotype.get(genotype.size()-1), genotype.get(0)))
+        if (!isValidPath(genotype.get(genotype.size()-1), genotype.get(0)))
             return false;
         for (int i = 1; i < genotype.size(); i++)
-            if (isNotValidPath(genotype.get(i-1), genotype.get(i)))
+            if (!isValidPath(genotype.get(i-1), genotype.get(i)))
                 return false;
 
         return true;
     }
 
-    private boolean isNotValidPath(int src, int dst) {
-        return this.instance.getCost(src, dst) == 0;
+    private boolean isValidPath(int src, int dst) {
+        return this.instance.getCost(src, dst) != 0;
     }
 
     private ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> population) {
@@ -157,9 +163,13 @@ public class TSPSolver {
         for (ArrayList<Integer> pp: pairParents)
             if (Math.random() < crossoverProbability) {
                 ArrayList<ArrayList<Integer>> sons = this.crossover.applyOperator(pp, population);
-                for (ArrayList<Integer> son: sons)
-                    if (isAValidGenotype(son))
+                for (ArrayList<Integer> son: sons) {
+                    if (isAValidGenotype(son)) {
                         newSons.add(son);
+                        exitos++;
+                    }
+                    total++;
+                }
             }
 
         return newSons;
@@ -170,47 +180,50 @@ public class TSPSolver {
             if (Math.random() < mutationProbability) {
                 ArrayList<Integer> pm = new ArrayList<>(p);
                 mutation.applyOperator(pm);
-                if (isAValidGenotype(pm))
+                if (isAValidGenotype(pm)) {
                     p = pm;
+                    exitos_m++;
+                }
+                total_m++;
             }
     }
-
-    /**
-     *
-     * Steady-State: los n peores individuos de la población actual son reemplazados por los n mejores hijos de dicha
-     * población. Con este mecanismo se incrementa muy rápido (en pocas generaciones) el nivel de fitness de
-     * la población pero puede llevar a una convergencia prematura. Por este motivo, generalmente es utilizado en
-     * combinación con poblaciones grandes y/o con una política de no permitir duplicados.
-     *
-     * @param population
-     * @param sons
-     * @return
-     */
 
     private void selectionOfSurvivors(ArrayList<ArrayList<Integer>> population,
                                                                ArrayList<ArrayList<Integer>> sons) {
 
-        population.sort(Comparator.comparingDouble(this::funcFitness));
-        sons.sort(Comparator.comparingDouble(this::funcFitness));
-
         int s = n;
-        if ((sons.size() < n)) {
+        if ((sons.size() < n))
             s = sons.size();
-        }
 
-        int i = population.size()-1;
-        int replaces = 0;
-        for (int j = 0; j < sons.size() && replaces < s; j++) {
-            ArrayList<Integer> son = sons.get(j);
-            if (!hasThatGenotype(population, son)) {
-                population.set(i, son);
-                replaces++;
-                i--;
-            }
-        }
+        survivors.applyOperator(population, sons, s);
     }
 
-    private boolean hasThatGenotype(ArrayList<ArrayList<Integer>> population, ArrayList<Integer> son) {
+    public static boolean hasThatGenotype(ArrayList<ArrayList<Integer>> population, ArrayList<Integer> candidate) {
+
+        for (ArrayList<Integer> individual: population) {
+
+            int i = 0;
+            int valueI = individual.get(i);
+            int j = candidate.indexOf(valueI);
+            int valueJ = candidate.get(j);
+            int first = valueI;
+
+            do {
+                if (valueI != valueJ)
+                    break;
+                i++;
+                j++;
+                i = i % individual.size();
+                j = j % candidate.size();
+                valueI = individual.get(i);
+                valueJ = candidate.get(j);
+
+            } while (first != valueI);
+
+            if (first == valueI)
+                return true;
+
+        }
 
         return false;
     }
@@ -223,10 +236,9 @@ public class TSPSolver {
         ArrayList<ArrayList<Integer>> pairParents = parentSelectionProcess(population);
         ArrayList<ArrayList<Integer>> sons = crossoverOperation(pairParents, population);
         mutationOperation(sons);
-
         selectionOfSurvivors(population, sons);
 
-        population.sort(Comparator.comparingDouble(this::funcFitness));
+        population.sort(Comparator.comparingDouble(this::funcFitness).reversed());
 
         return population.get(0);
     }

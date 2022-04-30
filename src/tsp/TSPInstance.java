@@ -1,3 +1,5 @@
+package tsp;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -59,7 +61,7 @@ public class TSPInstance {
             br.close();
 
         } catch (IOException e) {
-            System.err.println("TSPInstance: file not found. Please re-try and be sure of input path.");
+            System.err.println("tsp.TSPInstance: file not found. Please re-try and be sure of input path.");
         }
     }
 

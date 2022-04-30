@@ -1,13 +1,14 @@
 {
   "name": "Experiment",
   "instance": "p43.atsp",
-  "crossover": "orden",
+  "crossover": "cycle",
   "mutation": "insertion",
+  "survivors": "random",
   "N": 100,
   "m": 0,
   "crossoverProbability": 0.84,
   "mutationProbability": 0.12,
   "k": 10,
   "n": 20,
-  "maxGenerations": 120
+  "maxGenerations": 200
 }
