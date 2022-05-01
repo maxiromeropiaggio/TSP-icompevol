@@ -20,10 +20,6 @@ public class TSPSolver {
     private final double mutationProbability;
     private final int k;
     private final int n;
-    public int exitos = 0;
-    public int total = 0;
-    public int exitos_m = 0;
-    public int total_m = 0;
 
     /*
      * 2) Configurar los distintos parámetros y componentes del algoritmo evolutivo (método
@@ -51,9 +47,9 @@ public class TSPSolver {
 
     public double funcFitness(ArrayList<Integer> s) {
 
-        int r = instance.getCost(s.get(s.size()-1), s.get(0));
-        for (int i = 1; i < s.size(); i++)
-            r += instance.getCost(s.get(i-1), s.get(i));
+        int r = 0;
+        for (int i = 0; i < s.size(); i++)
+            r += instance.getCost(s.get(i), s.get((i + 1) % s.size()));
 
         return (double) 1/r;
     }
@@ -70,40 +66,24 @@ public class TSPSolver {
     }
 
     private ArrayList<Integer> generateRandomGenotype() {
-        ArrayList<Integer> r;
+        ArrayList<Integer> r = new ArrayList<>();
         int dim = this.instance.getDIMENSION();
 
-        do {
-            ArrayList<Integer> candidates = new ArrayList<>();
-            for (int i = 0; i < dim; i++)
-                candidates.add(i);
-            r =  new ArrayList<>();
-            for (int i = 0; i < dim; i++) {
-                int pos = (int) (Math.random() * candidates.size());
-                r.add(candidates.get(pos));
-                candidates.remove(pos);
-            }
-        } while (!isAValidGenotype(r));
+        ArrayList<Integer> candidates = new ArrayList<>();
+        for (int i = 0; i < dim; i++)
+            candidates.add(i);
+
+        for (int i = 0; i < dim; i++) {
+            int pos = (int) (Math.random() * candidates.size());
+            r.add(candidates.get(pos));
+            candidates.remove(pos);
+        }
 
         return r;
     }
 
     private ArrayList<Integer> getGenotypeBySelectiveInitialization() {
         return null;
-    }
-
-    private boolean isAValidGenotype(ArrayList<Integer> genotype) {
-        if (!isValidPath(genotype.get(genotype.size()-1), genotype.get(0)))
-            return false;
-        for (int i = 1; i < genotype.size(); i++)
-            if (!isValidPath(genotype.get(i-1), genotype.get(i)))
-                return false;
-
-        return true;
-    }
-
-    private boolean isValidPath(int src, int dst) {
-        return this.instance.getCost(src, dst) != 0;
     }
 
     private ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> population) {
@@ -161,31 +141,16 @@ public class TSPSolver {
         ArrayList<ArrayList<Integer>> newSons = new ArrayList<>();
 
         for (ArrayList<Integer> pp: pairParents)
-            if (Math.random() < crossoverProbability) {
-                ArrayList<ArrayList<Integer>> sons = this.crossover.applyOperator(pp, population);
-                for (ArrayList<Integer> son: sons) {
-                    if (isAValidGenotype(son)) {
-                        newSons.add(son);
-                        exitos++;
-                    }
-                    total++;
-                }
-            }
+            if (Math.random() < crossoverProbability)
+                newSons.addAll(this.crossover.applyOperator(pp, population));
 
         return newSons;
     }
 
     private void mutationOperation(ArrayList<ArrayList<Integer>> pop) {
         for (ArrayList<Integer> p : pop)
-            if (Math.random() < mutationProbability) {
-                ArrayList<Integer> pm = new ArrayList<>(p);
-                mutation.applyOperator(pm);
-                if (isAValidGenotype(pm)) {
-                    p = pm;
-                    exitos_m++;
-                }
-                total_m++;
-            }
+            if (Math.random() < mutationProbability)
+                mutation.applyOperator(p);
     }
 
     private void selectionOfSurvivors(ArrayList<ArrayList<Integer>> population,
@@ -196,36 +161,6 @@ public class TSPSolver {
             s = sons.size();
 
         survivors.applyOperator(population, sons, s);
-    }
-
-    public static boolean hasThatGenotype(ArrayList<ArrayList<Integer>> population, ArrayList<Integer> candidate) {
-
-        for (ArrayList<Integer> individual: population) {
-
-            int i = 0;
-            int valueI = individual.get(i);
-            int j = candidate.indexOf(valueI);
-            int valueJ = candidate.get(j);
-            int first = valueI;
-
-            do {
-                if (valueI != valueJ)
-                    break;
-                i++;
-                j++;
-                i = i % individual.size();
-                j = j % candidate.size();
-                valueI = individual.get(i);
-                valueJ = candidate.get(j);
-
-            } while (first != valueI);
-
-            if (first == valueI)
-                return true;
-
-        }
-
-        return false;
     }
 
     /*

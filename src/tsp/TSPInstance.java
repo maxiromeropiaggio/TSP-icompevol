@@ -19,6 +19,7 @@ public class TSPInstance {
     private String EDGE_WEIGHT_TYPE;
     private String EDGE_WEIGHT_FORMAT;
     private ArrayList<ArrayList<Integer>> EDGE_WEIGHT_SECTION;
+    private int totalCost;
 
     public TSPInstance(String file) {
         this.PATH = System.getenv("PWD") + "/instancias-TSP/" + file;
@@ -45,6 +46,7 @@ public class TSPInstance {
             this.EDGE_WEIGHT_SECTION = new ArrayList<>();
 
             ln = br.readLine();
+            totalCost = 0;
 
             while (!ln.equals("EOF")) {
                 String[] arr_ln = ln.replace("    ", " ")
@@ -54,8 +56,11 @@ public class TSPInstance {
                         .split(" ");
                 ArrayList<Integer> last = new ArrayList<>();
                 this.EDGE_WEIGHT_SECTION.add(last);
-                for (String i: arr_ln)
-                    last.add(Integer.parseInt(i));
+                for (String i: arr_ln) {
+                    int cost = Integer.parseInt(i);
+                    last.add(cost);
+                    totalCost += cost;
+                }
                 ln = br.readLine();
             }
             br.close();
@@ -63,19 +68,25 @@ public class TSPInstance {
         } catch (IOException e) {
             System.err.println("tsp.TSPInstance: file not found. Please re-try and be sure of input path.");
         }
+        Math.pow(totalCost, 1);
     }
 
     public int getCost(int src, int dst) {
+        int r = totalCost;
+        //int r = Integer.MAX_VALUE - totalCost;
+        //int r = Integer.MAX_VALUE;
         try {
             if (src == dst)
                 throw new RuntimeException();
-            return this.EDGE_WEIGHT_SECTION.get(src).get(dst);
+            int cost = this.EDGE_WEIGHT_SECTION.get(src).get(dst);
+            if (cost != 0)
+                r = cost;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("TSPInstance: the path does not exist. (" + src + ", " + dst + ")");
         } catch (RuntimeException e) {
             System.out.println("TSPInstance: source and destination are equals.");
         }
-        return 0;
+        return r;
     }
 
     public String getNAME() {

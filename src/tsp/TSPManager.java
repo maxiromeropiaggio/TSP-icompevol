@@ -128,12 +128,16 @@ public class TSPManager implements Runnable {
             best = solver.iterateGeneration(population);
             bestFitness = solver.funcFitness(best);
 
-
             bestSolutionPerInteration.add(best);
             bestSolutionPerInteration.add(bestFitness);
 
             bestSolutions.add(bestSolutionPerInteration);
             generation++;
+        }
+
+        for (int i = 0; i < N; i++) {
+            System.out.println(population.get(i) + "   " + solver.funcFitness(population.get(i)));
+            System.out.println();
         }
 
         long endTime = System.nanoTime();
@@ -142,14 +146,6 @@ public class TSPManager implements Runnable {
         register.put("best", best);
         register.put("bestFitness", bestFitness);
         register.put("time", (endTime - startTime)/1e6); //ms
-
-        System.out.println("crossover");
-        System.out.println("exitos: " + solver.exitos);
-        System.out.println("total: " + solver.total);
-
-        System.out.println("mutation");
-        System.out.println("total: " + solver.exitos_m);
-        System.out.println("total: " + solver.total_m);
 
         try (FileWriter fw = new FileWriter("result_" + name)) {
             BufferedWriter bw = new BufferedWriter(fw);

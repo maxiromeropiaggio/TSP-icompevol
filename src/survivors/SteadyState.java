@@ -35,12 +35,43 @@ public class SteadyState implements SurvivorsOperator {
         int replaces = 0;
         for (int j = 0; j < sons.size() && replaces < s; j++) {
             ArrayList<Integer> son = sons.get(j);
-            if (!TSPSolver.hasThatGenotype(population, son)) {
+            if (!hasThatGenotype(population, son)) {
                 population.set(i, son);
                 replaces++;
                 i--;
             }
         }
 
+    }
+
+
+    public boolean hasThatGenotype(ArrayList<ArrayList<Integer>> population, ArrayList<Integer> candidate) {
+
+        for (ArrayList<Integer> individual: population) {
+
+            int i = 0;
+            int valueI = individual.get(i);
+            int j = candidate.indexOf(valueI);
+            int valueJ = candidate.get(j);
+            int first = valueI;
+
+            do {
+                if (valueI != valueJ)
+                    break;
+                i++;
+                j++;
+                i = i % individual.size();
+                j = j % candidate.size();
+                valueI = individual.get(i);
+                valueJ = candidate.get(j);
+
+            } while (first != valueI);
+
+            if (first == valueI)
+                return true;
+
+        }
+
+        return false;
     }
 }
