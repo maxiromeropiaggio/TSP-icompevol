@@ -14,8 +14,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tsp/TSPManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="138" column="31" selection-start-line="138" selection-start-column="31" selection-end-line="138" selection-end-column="31" />
+            <state relative-caret-position="77">
+              <caret line="135" column="9" lean-forward="true" selection-start-line="135" selection-start-column="9" selection-end-line="135" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#TSPManager#0;class#TSPManager#0" />
@@ -24,20 +24,54 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/result_Experiment">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/survivors/SteadyState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret column="330359" selection-start-column="330359" selection-end-column="330359" />
+            <state relative-caret-position="255">
+              <caret line="31" column="8" lean-forward="true" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#hasThatGenotype#0;class#SteadyState#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/tsp/TSPSolver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="175" column="82" lean-forward="true" selection-start-line="175" selection-start-column="82" selection-end-line="175" selection-end-column="82" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#TSPSolver#0;class#TSPSolver#0" />
+                <element signature="method#funcFitness#0;class#TSPSolver#0" />
+                <element signature="method#generateInitialPopulation#0;class#TSPSolver#0" />
+                <element signature="method#generateRandomGenotype#0;class#TSPSolver#0" />
+                <element signature="method#parentSelectionProcess#0;class#TSPSolver#0" />
+                <element signature="method#selectParentByTournament#0;class#TSPSolver#0" />
+                <element signature="method#crossoverOperation#0;class#TSPSolver#0" />
+                <element signature="method#mutationOperation#0;class#TSPSolver#0" />
+                <element signature="method#selectionOfSurvivors#0;class#TSPSolver#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/result_Experiment">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="735">
+              <caret column="6661" selection-start-column="6661" selection-end-column="6661" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/experiments/tsp1.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="180">
+              <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -45,17 +79,9 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tsp/TSPInstance.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="76" column="10" lean-forward="true" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
+            <state relative-caret-position="329">
+              <caret line="77" column="33" selection-start-line="77" selection-start-column="33" selection-end-line="77" selection-end-column="33" />
               <folding>
-                <element signature="e#3015#3016#0" expanded="true" />
-                <element signature="e#3042#3043#0" expanded="true" />
-                <element signature="e#3075#3076#0" expanded="true" />
-                <element signature="e#3107#3108#0" expanded="true" />
-                <element signature="e#3150#3151#0" expanded="true" />
-                <element signature="e#3189#3190#0" expanded="true" />
-                <element signature="e#3234#3235#0" expanded="true" />
-                <element signature="e#3275#3276#0" expanded="true" />
                 <element signature="method#toString#0;class#TSPInstance#0" />
               </folding>
             </state>
@@ -65,7 +91,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/instancias-TSP/br17.atsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="300">
               <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="5" />
             </state>
           </provider>
@@ -85,6 +111,7 @@
     <findStrings>
       <find>poblation</find>
       <find>-1</find>
+      <find>funcFitness</find>
     </findStrings>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -123,9 +150,9 @@
         <option value="$PROJECT_DIR$/instancias-TSP/br17.atsp" />
         <option value="$PROJECT_DIR$/src/survivors/SteadyState.java" />
         <option value="$PROJECT_DIR$/src/tsp/TSPSolver.java" />
-        <option value="$PROJECT_DIR$/src/tsp/TSPInstance.java" />
         <option value="$PROJECT_DIR$/src/tsp/TSPManager.java" />
         <option value="$PROJECT_DIR$/experiments/tsp1.json" />
+        <option value="$PROJECT_DIR$/src/tsp/TSPInstance.java" />
       </list>
     </option>
   </component>
@@ -138,7 +165,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -161,11 +188,23 @@
               <item name="TSP-icompevol" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="TSP-icompevol" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TSP-icompevol" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="survivors" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TSP-icompevol" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TSP-icompevol" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="tsp" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -234,15 +273,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="-5" width="1376" height="747" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16802974" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16802974" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956383" />
-      <window_info active="true" anchor="bottom" x="0" y="24" width="1366" height="713" id="Run" order="2" visible="true" weight="0.46849757" />
+      <window_info anchor="bottom" x="0" y="24" width="1366" height="713" id="Run" order="2" weight="0.46849757" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.42164782" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -307,10 +345,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-          <folding>
-            <element signature="docComment;method#applyOperator#0;class#MutationInversion#0" />
-            <element signature="method#applyOperator#0;class#MutationInversion#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -349,10 +383,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="3" column="29" lean-forward="true" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
-          <folding>
-            <element signature="docComment;method#applyOperator#0;class#CrossoverCycle#0" />
-            <element signature="method#applyOperator#0;class#CrossoverCycle#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -411,26 +441,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/instancias-TSP/br17.atsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="300">
           <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/survivors/SteadyState.java">
+    <entry file="file://$PROJECT_DIR$/src/tsp/TSPInstance.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+        <state relative-caret-position="329">
+          <caret line="77" column="33" selection-start-line="77" selection-start-column="33" selection-end-line="77" selection-end-column="33" />
+          <folding>
+            <element signature="method#toString#0;class#TSPInstance#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/tsp1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/result_Experiment">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret column="6661" selection-start-column="6661" selection-end-column="6661" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tsp/TSPManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="135" column="9" lean-forward="true" selection-start-line="135" selection-start-column="9" selection-end-line="135" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#hasThatGenotype#0;class#SteadyState#0" />
+            <element signature="method#TSPManager#0;class#TSPManager#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tsp/TSPSolver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="168" column="90" selection-start-line="168" selection-start-column="90" selection-end-line="168" selection-end-column="90" />
+        <state relative-caret-position="363">
+          <caret line="175" column="82" lean-forward="true" selection-start-line="175" selection-start-column="82" selection-end-line="175" selection-end-column="82" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#TSPSolver#0;class#TSPSolver#0" />
@@ -442,51 +496,18 @@
             <element signature="method#crossoverOperation#0;class#TSPSolver#0" />
             <element signature="method#mutationOperation#0;class#TSPSolver#0" />
             <element signature="method#selectionOfSurvivors#0;class#TSPSolver#0" />
-            <element signature="method#iterateGeneration#0;class#TSPSolver#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tsp/TSPManager.java">
+    <entry file="file://$PROJECT_DIR$/src/survivors/SteadyState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="138" column="31" selection-start-line="138" selection-start-column="31" selection-end-line="138" selection-end-column="31" />
+        <state relative-caret-position="255">
+          <caret line="31" column="8" lean-forward="true" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#TSPManager#0;class#TSPManager#0" />
+            <element signature="method#hasThatGenotype#0;class#SteadyState#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/result_Experiment">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret column="330359" selection-start-column="330359" selection-end-column="330359" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tsp/TSPInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="76" column="10" lean-forward="true" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
-          <folding>
-            <element signature="e#3015#3016#0" expanded="true" />
-            <element signature="e#3042#3043#0" expanded="true" />
-            <element signature="e#3075#3076#0" expanded="true" />
-            <element signature="e#3107#3108#0" expanded="true" />
-            <element signature="e#3150#3151#0" expanded="true" />
-            <element signature="e#3189#3190#0" expanded="true" />
-            <element signature="e#3234#3235#0" expanded="true" />
-            <element signature="e#3275#3276#0" expanded="true" />
-            <element signature="method#toString#0;class#TSPInstance#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/tsp1.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
         </state>
       </provider>
     </entry>

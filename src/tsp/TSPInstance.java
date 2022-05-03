@@ -72,9 +72,10 @@ public class TSPInstance {
     }
 
     public int getCost(int src, int dst) {
-        int r = totalCost;
+        //int r = totalCost;
         //int r = Integer.MAX_VALUE - totalCost;
-        //int r = Integer.MAX_VALUE;
+        //int r = Double.POSITIVE_INFINITY;
+        int r = Integer.MAX_VALUE;
         try {
             if (src == dst)
                 throw new RuntimeException();
