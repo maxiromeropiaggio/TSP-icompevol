@@ -18,8 +18,7 @@ public class TSPInstance {
     private int DIMENSION;
     private String EDGE_WEIGHT_TYPE;
     private String EDGE_WEIGHT_FORMAT;
-    private ArrayList<ArrayList<Integer>> EDGE_WEIGHT_SECTION;
-    private int totalCost;
+    private int[][] EDGE_WEIGHT_SECTION;
 
     public TSPInstance(String file) {
         this.PATH = System.getenv("PWD") + "/instancias-TSP/" + file;
@@ -43,10 +42,10 @@ public class TSPInstance {
             this.EDGE_WEIGHT_FORMAT = ln.substring(19).replace(" ", "");
 
             br.readLine();
-            this.EDGE_WEIGHT_SECTION = new ArrayList<>();
+            this.EDGE_WEIGHT_SECTION = new int[this.DIMENSION][];
+            int f = 0;
 
             ln = br.readLine();
-            totalCost = 0;
 
             while (!ln.equals("EOF")) {
                 String[] arr_ln = ln.replace("    ", " ")
@@ -54,40 +53,31 @@ public class TSPInstance {
                         .replace("  ", " ")
                         .substring(1)
                         .split(" ");
-                ArrayList<Integer> last = new ArrayList<>();
-                this.EDGE_WEIGHT_SECTION.add(last);
-                for (String i: arr_ln) {
-                    int cost = Integer.parseInt(i);
-                    last.add(cost);
-                    totalCost += cost;
-                }
+                int[] columns = new int[this.DIMENSION];
+                this.EDGE_WEIGHT_SECTION[f] = columns;
+                for (int j = 0; j < columns.length; j++)
+                    columns[j] = Integer.parseInt(arr_ln[j]);
                 ln = br.readLine();
+                f++;
             }
             br.close();
 
         } catch (IOException e) {
             System.err.println("tsp.TSPInstance: file not found. Please re-try and be sure of input path.");
         }
-        Math.pow(totalCost, 1);
     }
 
     public int getCost(int src, int dst) {
-        //int r = totalCost;
-        //int r = Integer.MAX_VALUE - totalCost;
-        //int r = Double.POSITIVE_INFINITY;
-        int r = Integer.MAX_VALUE;
         try {
             if (src == dst)
                 throw new RuntimeException();
-            int cost = this.EDGE_WEIGHT_SECTION.get(src).get(dst);
-            if (cost != 0)
-                r = cost;
+            return this.EDGE_WEIGHT_SECTION[src][dst];
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("TSPInstance: the path does not exist. (" + src + ", " + dst + ")");
         } catch (RuntimeException e) {
             System.out.println("TSPInstance: source and destination are equals.");
         }
-        return r;
+        return Integer.MAX_VALUE;
     }
 
     public String getNAME() {
