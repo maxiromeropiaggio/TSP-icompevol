@@ -2,6 +2,7 @@ package tsp;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import crossover.*;
 import mutation.*;
@@ -64,18 +65,15 @@ public class TSPManager implements Runnable {
             else /*if (mutation.equals(MutationInversion.NAME))*/
                 mutationOperator = new MutationInversion();
 
-            solver = new TSPSolver(instance, crossoverOperator, mutationOperator, N, m,
-                    crossoverProbability, mutationProbability, k, n);
-
             SurvivorsOperator survivorsOperator;
             if (survivors.equals(SteadyState.NAME)) {
                 survivorsOperator = new SteadyState();
-                ((SteadyState)survivorsOperator).setSolver(solver);
             }
             else
                 survivorsOperator = new RandomReplacement();
 
-            solver.setSurvivorsOperator(survivorsOperator);
+            solver = new TSPSolver(instance, crossoverOperator, mutationOperator, survivorsOperator, N, m,
+                    crossoverProbability, mutationProbability, k, n);
 
 
         } catch (IOException e) {
@@ -101,11 +99,10 @@ public class TSPManager implements Runnable {
 
         JSONObject register = new JSONObject();
         JSONArray bestSolutions = new JSONArray();
-        ArrayList<Integer> best = null;
-        double bestFitness = -1;
+        Individual best = null;
 
         register.put("name", name);
-        register.put("instance", instance.getNAME());
+        register.put("instance", instance.NAME);
         register.put("crossover", crossover);
         register.put("mutation", mutation);
         register.put("survivors", survivors);
@@ -120,34 +117,36 @@ public class TSPManager implements Runnable {
         register.put("selectionParentProcess", "tournament");
 
         long startTime = System.nanoTime();
-        ArrayList<ArrayList<Integer>> population = solver.generateInitialPopulation();
+        ArrayList<Individual> population = solver.generateInitialPopulation();
         int generation = 1;
 
         while (generation <= maxGenerations) {
+            //System.out.println();
+            //System.out.println(" -------------- GENERACION" + generation + " --------------");
+            //System.out.println();
             JSONArray bestSolutionPerInteration = new JSONArray();
             best = solver.iterateGeneration(population);
-            bestFitness = solver.funcFitness(best);
 
-            bestSolutionPerInteration.add(best);
-            bestSolutionPerInteration.add(bestFitness);
+            bestSolutionPerInteration.add(Arrays.toString(best.genotype));
+            bestSolutionPerInteration.add(best.getFitness());
 
             bestSolutions.add(bestSolutionPerInteration);
             generation++;
         }
 
-        for (int i = 0; i < N; i++) {
-            System.out.println(population.get(i) + "   " + solver.funcFitness(population.get(i)));
+        /*for (int i = 0; i < N; i++) {
+            System.out.println(Arrays.toString(population.get(i).genotype) + "   " + population.get(i).getFitness());
             System.out.println();
-        }
+        }*/
 
         long endTime = System.nanoTime();
 
         register.put("bestSolutions", bestSolutions);
-        register.put("best", best);
-        register.put("bestFitness", bestFitness);
+        register.put("best", Arrays.toString(best.genotype));
+        register.put("bestFitness", best.getFitness());
         register.put("time", (endTime - startTime)/1e6); //ms
 
-        try (FileWriter fw = new FileWriter("result_" + name)) {
+        try (FileWriter fw = new FileWriter("resultOf-" + name)) {
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write(register.toJSONString());

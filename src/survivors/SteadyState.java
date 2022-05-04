@@ -1,6 +1,6 @@
 package survivors;
 
-import tsp.TSPSolver;
+import tsp.Individual;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,12 +8,6 @@ import java.util.Comparator;
 public class SteadyState implements SurvivorsOperator {
 
     public static final String NAME = "steady-state";
-    private TSPSolver solver;
-
-    public void setSolver(TSPSolver solver) {
-        this.solver = solver;
-    }
-
     /**
      *
      * los n peores individuos de la población actual son reemplazados por los n mejores hijos de dicha población.
@@ -25,51 +19,30 @@ public class SteadyState implements SurvivorsOperator {
      * @param sons
      */
     @Override
-    public void applyOperator(ArrayList<ArrayList<Integer>> population, ArrayList<ArrayList<Integer>> sons, int s) {
+    public void applyOperator(ArrayList<Individual> population, ArrayList<Individual> sons, int s) {
 
+        population.sort(Individual::compareTo);
+        sons.sort(Individual::compareTo);
 
-        population.sort(Comparator.comparingDouble(this.solver::funcFitness).reversed());
-        sons.sort(Comparator.comparingDouble(this.solver::funcFitness).reversed());
-
-        int i = population.size()-1;
+        int i = 0;
         int replaces = 0;
-        for (int j = 0; j < sons.size() && replaces < s; j++) {
-            ArrayList<Integer> son = sons.get(j);
+        for (int j = sons.size()-1; j >= 0 && replaces < s; j--) {
+            Individual son = sons.get(j);
             if (!hasThatGenotype(population, son)) {
                 population.set(i, son);
                 replaces++;
-                i--;
+                i++;
             }
         }
 
     }
 
 
-    public boolean hasThatGenotype(ArrayList<ArrayList<Integer>> population, ArrayList<Integer> candidate) {
+    public boolean hasThatGenotype(ArrayList<Individual> population, Individual candidate) {
 
-        for (ArrayList<Integer> individual: population) {
-
-            int i = 0;
-            int valueI = individual.get(i);
-            int j = candidate.indexOf(valueI);
-            int valueJ = candidate.get(j);
-            int first = valueI;
-
-            do {
-                if (valueI != valueJ)
-                    break;
-                i++;
-                j++;
-                i = i % individual.size();
-                j = j % candidate.size();
-                valueI = individual.get(i);
-                valueJ = candidate.get(j);
-
-            } while (first != valueI);
-
-            if (first == valueI)
+        for (Individual individual: population) {
+            if (individual.equals(candidate))
                 return true;
-
         }
 
         return false;

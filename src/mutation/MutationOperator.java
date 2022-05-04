@@ -1,7 +1,7 @@
 package mutation;
 
-import java.util.ArrayList;
+import tsp.Individual;
 
 public interface MutationOperator {
-    void applyOperator(ArrayList<Integer> p);
+    void applyOperator(Individual son);
 }

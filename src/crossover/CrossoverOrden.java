@@ -1,42 +1,34 @@
 package crossover;
 
-import java.util.ArrayList;
+import tsp.Individual;
 
 public class CrossoverOrden implements CrossoverOperator {
 
     public static final String NAME = "orden";
 
 
-    private ArrayList<Integer> crossAndGetSon(ArrayList<Integer> parent1, ArrayList<Integer> parent2,
-                                              int crossPoint1, int crossPoint2) {
+    private Individual crossAndGetSon(Individual parent1, Individual parent2, int crossPoint1,
+                                              int crossPoint2) {
+        int dim = parent1.instance.DIMENSION;
+        Individual son = new Individual(parent1.instance, new int[dim]);
 
-        ArrayList<Integer> son = new ArrayList<>();
-
-        for (int i = 0; i < parent1.size(); i++)
-            son.add(-1);
+        for (int i = 0; i < parent1.instance.DIMENSION; i++)
+            son.genotype[i] = -1;
 
         for (int i = crossPoint1; i < crossPoint2; i++)
-            son.set(i, parent1.get(i));
+            son.genotype[i] = parent1.genotype[i];
 
         int posSon = crossPoint2;
-        for (int posParent = crossPoint2; posParent < parent2.size(); posParent++){
-            int n = parent2.get(posParent);
+        int posParent = crossPoint2;
 
-            if (!son.contains(n)) {
-                son.set(posSon, n);
-                posSon++;
+        for (int i = 0; i < dim; i++){
+            int n = parent2.genotype[posParent];
+
+            if (son.getIndexOf(n) == -1) {
+                son.genotype[posSon] = n;
+                posSon = (posSon + 1) % dim;
             }
-        }
-
-        for (int posParent = 0; posParent < crossPoint2; posParent++){
-            int n = parent2.get(posParent);
-
-            if (!(posSon < son.size()))
-                posSon = 0;
-            if (!son.contains(n)) {
-                son.set(posSon, n);
-                posSon++;
-            }
+            posParent = (posParent + 1) % dim;
         }
 
         return son;
@@ -54,21 +46,19 @@ public class CrossoverOrden implements CrossoverOperator {
      *  3. Al terminar la lista del padre 2, continuar con los primeros valores de la misma
      * 4. El segundo hijo es creado de manera análoga (pasos 2 y 3) invirtiendo el rol de los padres
      *
-     * @param pairParents
-     * @param population
-     * @return
+     * @param parents
      */
 
-    public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> pairParents, ArrayList<ArrayList<Integer>> population) {
+    public Individual[] applyOperator(Individual[] parents) {
 
-        int dim = population.get(0).size();
+        int dim = parents[0].instance.DIMENSION;
         int crossPoint1 = (int) (Math.random() * dim);
         int crossPoint2 = (int) (Math.random() * dim);
 
-        ArrayList<ArrayList<Integer>> sons = new ArrayList<>();
+        Individual[] sons = new Individual[2];
 
-        ArrayList<Integer> parentA = population.get(pairParents.get(0));
-        ArrayList<Integer> parentB = population.get(pairParents.get(1));
+        Individual parentA = parents[0];
+        Individual parentB = parents[1];
 
         if (crossPoint1 > crossPoint2) {
             int tmp = crossPoint2;
@@ -76,8 +66,8 @@ public class CrossoverOrden implements CrossoverOperator {
             crossPoint1 = tmp;
         }
 
-        sons.add(crossAndGetSon(parentA, parentB, crossPoint1, crossPoint2));
-        sons.add(crossAndGetSon(parentB, parentA, crossPoint1, crossPoint2));
+        sons[0] = crossAndGetSon(parentA, parentB, crossPoint1, crossPoint2);
+        sons[1] = crossAndGetSon(parentB, parentA, crossPoint1, crossPoint2);
 
         return sons;
     }

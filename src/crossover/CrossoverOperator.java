@@ -1,8 +1,7 @@
 package crossover;
 
-import java.util.ArrayList;
+import tsp.Individual;
 
 public interface CrossoverOperator {
-    ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> pairParents,
-                                                ArrayList<ArrayList<Integer>> population);
+    Individual[] applyOperator(Individual[] parents);
 }

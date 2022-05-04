@@ -5,7 +5,7 @@ import mutation.MutationOperator;
 import survivors.SurvivorsOperator;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 
 public class TSPSolver {
 
@@ -28,11 +28,13 @@ public class TSPSolver {
      * inicial, probabilidad de cruce, probabilidad de mutación, condición de corte, etc.
      */
 
-    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, MutationOperator mutation, int N, int m,
-                     double crossoverProbability, double mutationProbability, int k, int n) {
+    public TSPSolver(TSPInstance instance, CrossoverOperator crossover, MutationOperator mutation,
+                     SurvivorsOperator survivors, int N, int m, double crossoverProbability, double mutationProbability,
+                     int k, int n) {
         this.instance = instance;
         this.crossover = crossover;
         this.mutation = mutation;
+        this.survivors = survivors;
         this.N = N;
         this.m = m;
         this.crossoverProbability = crossoverProbability;
@@ -41,120 +43,101 @@ public class TSPSolver {
         this.n = n;
     }
 
-    public void setSurvivorsOperator(SurvivorsOperator survivors) {
-        this.survivors = survivors;
-    }
+    public ArrayList<Individual> generateInitialPopulation() {
 
-    public double funcFitness(ArrayList<Integer> s) {
-
-        int r = 0;
-        for (int i = 0; i < s.size(); i++)
-            r += instance.getCost(s.get(i), s.get((i + 1) % s.size()));
-
-        return (double) 1/r;
-    }
-
-    public ArrayList<ArrayList<Integer>> generateInitialPopulation() {
-        ArrayList<ArrayList<Integer>> initialPopulation = new ArrayList<>();
+        ArrayList<Individual> initialPopulation = new ArrayList<>();
         for (int i = 0; i < N - m; i++)
             initialPopulation.add(generateRandomGenotype());
-
-        for (int j = N - m; j < N; j++)
-            initialPopulation.add(getGenotypeBySelectiveInitialization());
 
         return initialPopulation;
     }
 
-    private ArrayList<Integer> generateRandomGenotype() {
-        ArrayList<Integer> r = new ArrayList<>();
-        int dim = this.instance.getDIMENSION();
+    private Individual generateRandomGenotype() {
 
+        int dim = instance.DIMENSION;
+        int[] r = new int [dim];
         ArrayList<Integer> candidates = new ArrayList<>();
         for (int i = 0; i < dim; i++)
             candidates.add(i);
 
         for (int i = 0; i < dim; i++) {
             int pos = (int) (Math.random() * candidates.size());
-            r.add(candidates.get(pos));
+            r[i] = candidates.get(pos);
             candidates.remove(pos);
         }
 
-        return r;
+        return new Individual(instance, r);
     }
 
-    private ArrayList<Integer> getGenotypeBySelectiveInitialization() {
-        return null;
-    }
+    private int[][] parentSelectionProcess(ArrayList<Individual> population) {
 
-    private ArrayList<ArrayList<Integer>> parentSelectionProcess(ArrayList<ArrayList<Integer>> population) {
+        int[][] pairParents = new int[N / (2 * 2)][2];
+        int[] individuals = new int[N];
 
-        ArrayList<ArrayList<Integer>> pairParents = new ArrayList<>();
-        ArrayList<Integer> individuals = new ArrayList<>();
-        for (int i = 0; i < N; i++)
-            individuals.add(0);
-
-        for (int j = 0; j < N / (2 * 2); j++) {
-
-            ArrayList<Integer> last = new ArrayList<>();
-            pairParents.add(last);
+        for (int j = 0; j < pairParents.length; j++) {
 
             int parent = selectParentByTournament(individuals, population);
-            last.add(parent);
-            individuals.set(parent, 1);
+            pairParents[j][0] = parent;
+            individuals[parent] = 1;
 
             parent = selectParentByTournament(individuals, population);
-            last.add(parent);
-            individuals.set(parent, 1);
+            pairParents[j][1] = parent;
+            individuals[parent] = 1;
         }
 
         return pairParents;
     }
 
-    private int selectParentByTournament(ArrayList<Integer> individuals, ArrayList<ArrayList<Integer>> population) {
+    private int selectParentByTournament(int[] individuals, ArrayList<Individual> population) {
         int parentWinner = -1;
         double parentFitness = -1;
-        ArrayList<Integer> candidates = new ArrayList<>();
+        int[] candidates = new int[k];
 
         for (int i = 0; i < k; i++) {
             int posIndividual;
             do
                 posIndividual = (int) (Math.random() * N);
-            while (individuals.get(posIndividual) != 0);
+            while (individuals[posIndividual] != 0);
 
-            candidates.add(posIndividual);
-            individuals.set(posIndividual, 2);
+            candidates[i] = posIndividual;
+            individuals[posIndividual] = 2;
         }
 
-        for (int c:candidates) {
-            double candidateFitness = funcFitness(population.get(c));
+        for (int c : candidates) {
+            double candidateFitness = population.get(c).getFitness();
             if (candidateFitness > parentFitness) {
                 parentWinner = c;
                 parentFitness = candidateFitness;
             }
-            individuals.set(c, 0);
+            individuals[c] = 0;
         }
 
         return parentWinner;
     }
 
-    private ArrayList<ArrayList<Integer>> crossoverOperation(ArrayList<ArrayList<Integer>> pairParents, ArrayList<ArrayList<Integer>> population) {
-        ArrayList<ArrayList<Integer>> newSons = new ArrayList<>();
+    private ArrayList<Individual> crossoverOperation(int[][] pairParents, ArrayList<Individual> population) {
+        ArrayList<Individual> newSons = new ArrayList<>();
 
-        for (ArrayList<Integer> pp: pairParents)
-            if (Math.random() < crossoverProbability)
-                newSons.addAll(this.crossover.applyOperator(pp, population));
+        for (int[] pair: pairParents)
+            if (Math.random() < crossoverProbability) {
+                Individual[] parents = new Individual[2];
+                parents[0] = population.get(pair[0]);
+                parents[1] = population.get(pair[1]);
+                Individual[] inds = this.crossover.applyOperator(parents);
+                newSons.add(inds[0]);
+                newSons.add(inds[1]);
+            }
 
         return newSons;
     }
 
-    private void mutationOperation(ArrayList<ArrayList<Integer>> pop) {
-        for (ArrayList<Integer> p : pop)
+    private void mutationOperation(ArrayList<Individual> sons) {
+        for (Individual son : sons)
             if (Math.random() < mutationProbability)
-                mutation.applyOperator(p);
+                mutation.applyOperator(son);
     }
 
-    private void selectionOfSurvivors(ArrayList<ArrayList<Integer>> population,
-                                                               ArrayList<ArrayList<Integer>> sons) {
+    private void selectionOfSurvivors(ArrayList<Individual> population, ArrayList<Individual> sons) {
 
         int s = n;
         if ((sons.size() < n))
@@ -166,15 +149,18 @@ public class TSPSolver {
     /*
      * 3) Ejecutar al algoritmo evolutivo en base a la configuración definida.
      */
-    public ArrayList<Integer> iterateGeneration(ArrayList<ArrayList<Integer>> population) {
+    public Individual iterateGeneration(ArrayList<Individual> population) {
 
-        ArrayList<ArrayList<Integer>> pairParents = parentSelectionProcess(population);
-        ArrayList<ArrayList<Integer>> sons = crossoverOperation(pairParents, population);
+        int[][] pairParents = parentSelectionProcess(population);
+        ArrayList<Individual> sons = crossoverOperation(pairParents, population);
         mutationOperation(sons);
         selectionOfSurvivors(population, sons);
 
-        population.sort(Comparator.comparingDouble(this::funcFitness).reversed());
+        population.sort(Individual::compareTo);
 
-        return population.get(0);
+        System.out.println(Arrays.toString(population.toArray()));
+        System.out.println();
+
+        return population.get(N-1);
     }
 }

@@ -1,6 +1,6 @@
 package mutation;
 
-import java.util.ArrayList;
+import tsp.Individual;
 
 public class MutationInsertion implements MutationOperator {
 
@@ -14,13 +14,16 @@ public class MutationInsertion implements MutationOperator {
      * • Este operador preserva la mayor parte del orden existente entre los valores y de la información
      * sobre adyacencias
      *
-     * @param p
+     * @param son
      */
     @Override
-    public void applyOperator(ArrayList<Integer> p) {
+    public void applyOperator(Individual son) {
+        int p1, p2;
 
-        int p1 = (int) (Math.random() * p.size()-1);
-        int p2 = (int) (Math.random() * p.size());
+        do {
+            p1 = (int) (Math.random() * (son.instance.DIMENSION - 1));
+            p2 = (int) (Math.random() * son.instance.DIMENSION);
+        } while (p1 == p2);
 
         if (p1 > p2) {
             int tmp = p1;
@@ -28,10 +31,11 @@ public class MutationInsertion implements MutationOperator {
             p2 = tmp;
         }
 
-        int valueToMove = p.get(p2);
-        p.remove(p2);
+        int valueToMove = son.genotype[p2];
 
-        p.add(p1+1, valueToMove);
+        for (int i = p2; i > p1 + 1; i--)
+            son.genotype[i] = son.genotype[i-1];
 
+        son.genotype[p1+1] = valueToMove;
     }
 }

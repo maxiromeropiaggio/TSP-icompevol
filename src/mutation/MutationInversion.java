@@ -1,6 +1,6 @@
 package mutation;
 
-import java.util.ArrayList;
+import tsp.Individual;
 
 public class MutationInversion implements MutationOperator {
 
@@ -12,13 +12,13 @@ public class MutationInversion implements MutationOperator {
      * • Preserva la mayor parte de la información sobre adyacencias pero perturba significativamente la información
      * sobre el orden
      *
-     * @param p
+     * @param son
      */
     @Override
-    public void applyOperator(ArrayList<Integer> p) {
+    public void applyOperator(Individual son) {
 
-        int p1 = (int) (Math.random() * p.size());
-        int p2 = (int) (Math.random() * p.size());
+        int p1 = (int) (Math.random() * son.instance.DIMENSION);
+        int p2 = (int) (Math.random() * son.instance.DIMENSION);
 
         if (p1 > p2) {
             int tmp = p1;
@@ -28,9 +28,9 @@ public class MutationInversion implements MutationOperator {
 
         int j = p2;
         for (int i = p1; i <= p2 / 2; i++) {
-            int tmp = p.get(i);
-            p.set(i, p.get(j));
-            p.set(j, tmp);
+            int tmp = son.genotype[i];
+            son.genotype[i] = son.genotype[j];
+            son.genotype[j] = tmp;
             j--;
         }
     }

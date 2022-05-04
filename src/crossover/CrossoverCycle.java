@@ -1,7 +1,8 @@
 package crossover;
 
+import tsp.Individual;
+
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class CrossoverCycle implements CrossoverOperator {
 
@@ -22,45 +23,40 @@ public class CrossoverCycle implements CrossoverOperator {
      * hijo 1 (hijo 2) respetando las posiciones que ellos tienen en el P2
      * (P1)
      *
-     * @param pairParents
-     * @param population
+     * @param parents
      * @return
      */
     @Override
-    public ArrayList<ArrayList<Integer>> applyOperator(ArrayList<Integer> pairParents,
-                                                       ArrayList<ArrayList<Integer>> population) {
+    public Individual[] applyOperator(Individual[] parents) {
 
-        int dim = population.get(0).size();
+        int dim = parents[0].instance.DIMENSION;
 
-        ArrayList<ArrayList<Integer>> sons = new ArrayList<>();
-        sons.add(new ArrayList<>());
-        sons.add(new ArrayList<>());
+        Individual[] sons = new Individual[2];
 
-        ArrayList<Integer> son1 = sons.get(0);
-        ArrayList<Integer> son2 = sons.get(1);
+        int[] son1 = new int[dim];
+        int[] son2 = new int[dim];
+
         for (int i = 0; i < dim; i++) {
-            son1.add(-1);
-            son2.add(-1);
+            son1[i] = -1;
+            son2[i] = -1;
         }
 
-        ArrayList<Integer> parent1 = population.get(pairParents.get(0));
-        ArrayList<Integer> parent2 = population.get(pairParents.get(1));
+        Individual parent1 = parents[0];
+        Individual parent2 = parents[1];
 
         ArrayList<ArrayList<Integer>> posAllCycles = new ArrayList<>();
 
         ArrayList<Integer> valuesUsed = new ArrayList<>();
-        for (int i = 0; i < dim; i++)
-            valuesUsed.add(0);
 
         do {
             ArrayList<Integer> posCycle = new ArrayList<>();
             int firstValue = -1;
 
             for (int j = 0; j < dim && firstValue == -1; j++) {
-                int v = parent1.get(j);
-                if (valuesUsed.get(v) == 0){
+                int v = parent1.genotype[j];
+                if (!valuesUsed.contains(v)){
                     firstValue = v;
-                    valuesUsed.set(firstValue, 1);
+                    valuesUsed.add(firstValue);
                     posCycle.add(j);
                 }
             }
@@ -68,33 +64,38 @@ public class CrossoverCycle implements CrossoverOperator {
             int nextValue;
             int i = posCycle.get(0);
             do {
-                nextValue = parent2.get(i);
-                i = parent1.indexOf(nextValue);
+                nextValue = parent2.genotype[i];
+                i = parent1.getIndexOf(nextValue);
                 posCycle.add(i);
-                valuesUsed.set(nextValue, 1);
+                valuesUsed.add(nextValue);
 
             } while (nextValue != firstValue);
 
             posCycle.remove(posCycle.size()-1);
+            valuesUsed.remove(valuesUsed.size()-1);
 
             posAllCycles.add(posCycle);
 
-        } while (Collections.min(valuesUsed) == 0);
+        } while (valuesUsed.size() < dim);
 
         for (ArrayList<Integer> posCycle : posAllCycles) {
             for (Integer posValue : posCycle) {
 
-                int valueSon1 = parent1.get(posValue);
-                int valueSon2 = parent2.get(posValue);
+                int valueSon1 = parent1.genotype[posValue];
+                int valueSon2 = parent2.genotype[posValue];
 
-                son1.set(posValue, valueSon1);
-                son2.set(posValue, valueSon2);
+                son1[posValue] = valueSon1;
+                son2[posValue] = valueSon2;
             }
 
-            ArrayList<Integer> tmp = son1;
-            son1 = son2;
-            son2 = tmp;
+            Individual tmp = parent1;
+            parent1 = parent2;
+            parent2 = tmp;
         }
+
+
+        sons[0] = new Individual(parent1.instance, son1);
+        sons[1] = new Individual(parent1.instance, son2);
 
         return sons;
     }

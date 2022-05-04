@@ -13,11 +13,11 @@ public class TSPInstance {
      * de la librería TSPLIB95.
      * */
 
-    private final String PATH;
-    private String NAME;
-    private int DIMENSION;
-    private String EDGE_WEIGHT_TYPE;
-    private String EDGE_WEIGHT_FORMAT;
+    public final String PATH;
+    public String NAME;
+    public int DIMENSION;
+    public String EDGE_WEIGHT_TYPE;
+    public String EDGE_WEIGHT_FORMAT;
     private int[][] EDGE_WEIGHT_SECTION;
 
     public TSPInstance(String file) {
@@ -75,34 +75,18 @@ public class TSPInstance {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("TSPInstance: the path does not exist. (" + src + ", " + dst + ")");
         } catch (RuntimeException e) {
-            System.out.println("TSPInstance: source and destination are equals.");
+            System.err.println("TSPInstance: source and destination are equals. (" + src + ")");
         }
-        return Integer.MAX_VALUE;
-    }
-
-    public String getNAME() {
-        return NAME;
-    }
-
-    public int getDIMENSION() {
-        return DIMENSION;
-    }
-
-    public String getEDGE_WEIGHT_TYPE() {
-        return EDGE_WEIGHT_TYPE;
-    }
-
-    public String getEDGE_WEIGHT_FORMAT() {
-        return EDGE_WEIGHT_FORMAT;
+        return 0;
     }
 
     public String toString() {
-        return  "NAME: " + this.getNAME() + "\n" +
+        return  "NAME: " + this.NAME + "\n" +
                 "TYPE: ATSP\n" +
                 "COMMENT: TSP instance.\n" +
-                "DIMENSION: " + this.getDIMENSION() + "\n" +
-                "EDGE_WEIGHT_TYPE: " + this.getEDGE_WEIGHT_TYPE() + "\n" +
-                "EDGE_WEIGHT_FORMAT: " + this.getEDGE_WEIGHT_FORMAT() + "\n" +
+                "DIMENSION: " + this.DIMENSION + "\n" +
+                "EDGE_WEIGHT_TYPE: " + this.EDGE_WEIGHT_TYPE + "\n" +
+                "EDGE_WEIGHT_FORMAT: " + this.EDGE_WEIGHT_FORMAT + "\n" +
                 "EDGE_WEIGHT_SECTION:\n" +
                 this.EDGE_WEIGHT_SECTION;
     }
