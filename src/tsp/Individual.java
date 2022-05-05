@@ -7,6 +7,7 @@ public class Individual implements Comparable<Individual> {
     public TSPInstance instance;
     public int[] genotype;
     private double fitness;
+    private double cost = Double.POSITIVE_INFINITY;
     private static int i = 0;
     private final int my;
 
@@ -29,6 +30,8 @@ public class Individual implements Comparable<Individual> {
                 return 0.0;
             r += cost;
         }
+
+        cost = r;
 
         return (double) 1/r;
     }
@@ -58,6 +61,6 @@ public class Individual implements Comparable<Individual> {
         return "\n" +
                 "My: " + my + "\n" +
                 "Genotype: " + Arrays.toString(genotype) + "\n" +
-                "Fitness: " + getFitness() + "\n";
+                "Fitness: " + cost + "\n";
     }
 }

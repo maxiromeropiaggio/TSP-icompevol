@@ -15,17 +15,17 @@ public class CrossoverOrden implements CrossoverOperator {
         for (int i = 0; i < parent1.instance.DIMENSION; i++)
             son.genotype[i] = -1;
 
-        for (int i = crossPoint1; i < crossPoint2; i++)
+        for (int i = crossPoint1; i <= crossPoint2; i++)
             son.genotype[i] = parent1.genotype[i];
 
-        int posSon = crossPoint2;
-        int posParent = crossPoint2;
+        int posSon = crossPoint2+1;
+        int posParent = crossPoint2+1;
 
         for (int i = 0; i < dim; i++){
-            int n = parent2.genotype[posParent];
+            int n = parent2.genotype[posParent % dim];
 
             if (son.getIndexOf(n) == -1) {
-                son.genotype[posSon] = n;
+                son.genotype[posSon % dim] = n;
                 posSon = (posSon + 1) % dim;
             }
             posParent = (posParent + 1) % dim;
@@ -52,8 +52,13 @@ public class CrossoverOrden implements CrossoverOperator {
     public Individual[] applyOperator(Individual[] parents) {
 
         int dim = parents[0].instance.DIMENSION;
-        int crossPoint1 = (int) (Math.random() * dim);
-        int crossPoint2 = (int) (Math.random() * dim);
+
+        int crossPoint1, crossPoint2;
+
+        do {
+            crossPoint1 = (int) (Math.random() * dim);
+            crossPoint2 = (int) (Math.random() * dim);
+        } while (crossPoint1 == crossPoint2);
 
         Individual[] sons = new Individual[2];
 
@@ -65,6 +70,12 @@ public class CrossoverOrden implements CrossoverOperator {
             crossPoint2 = crossPoint1;
             crossPoint1 = tmp;
         }
+
+        /*System.out.println(" -------------- PADRES --------------");
+        System.out.println(parentA.toString());
+        System.out.println(parentB.toString());
+        System.out.println("punto1: " + crossPoint1);
+        System.out.println("punto2: " + crossPoint2);*/
 
         sons[0] = crossAndGetSon(parentA, parentB, crossPoint1, crossPoint2);
         sons[1] = crossAndGetSon(parentB, parentA, crossPoint1, crossPoint2);

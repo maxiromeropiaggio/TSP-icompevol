@@ -17,8 +17,12 @@ public class MutationInversion implements MutationOperator {
     @Override
     public void applyOperator(Individual son) {
 
-        int p1 = (int) (Math.random() * son.instance.DIMENSION);
-        int p2 = (int) (Math.random() * son.instance.DIMENSION);
+        int p1, p2;
+
+        do {
+            p1 = (int) (Math.random() * son.instance.DIMENSION);
+            p2 = (int) (Math.random() * son.instance.DIMENSION);
+        } while (p1 == p2);
 
         if (p1 > p2) {
             int tmp = p1;

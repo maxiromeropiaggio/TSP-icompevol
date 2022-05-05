@@ -116,14 +116,13 @@ public class TSPManager implements Runnable {
         long startTime = System.nanoTime();
         ArrayList<Individual> population = solver.generateInitialPopulation();
 
-        System.out.println();
+        /*System.out.println();
         System.out.println(" -------------- GENERACION " + 0 + " --------------");
-        System.out.println();
-        population.sort(Individual::compareTo);
-        for (int i = 0; i < population.size(); i++) {
+        System.out.println();*/
+
+        /*for (int i = 0; i < population.size(); i++) {
             System.out.println(population.get(i).toString());
-            System.out.println();
-        }
+        }*/
 
         int generation = 1;
 
@@ -136,20 +135,28 @@ public class TSPManager implements Runnable {
 
             bestSolutions.add(bestSolutionPerInteration);
 
-
             System.out.println();
             System.out.println(" -------------- GENERACION " + generation + " --------------");
             System.out.println();
+            System.out.println(best.toString());
 
-            for (int i = 0; i < population.size(); i++) {
+            /*for (int i = 0; i < population.size(); i++) {
                 System.out.println(population.get(i).toString());
-                System.out.println();
-            }
+            }*/
 
             generation++;
         }
 
         long endTime = System.nanoTime();
+
+        System.out.println();
+        System.out.println(" -------------- GENERACION " + generation + " --------------");
+        System.out.println();
+        System.out.println(best.toString());
+
+        for (int i = 0; i < population.size(); i++) {
+            System.out.println(population.get(i).toString());
+        }
 
         register.put("bestSolutions", bestSolutions);
         //register.put("best", Arrays.toString(best.genotype));

@@ -31,6 +31,9 @@ public class MutationInsertion implements MutationOperator {
             p2 = tmp;
         }
 
+        /*System.out.println("punto1: " + p1 + " punto2: " + p2);
+        System.out.println(son.toString());*/
+
         int valueToMove = son.genotype[p2];
 
         for (int i = p2; i > p1 + 1; i--)
