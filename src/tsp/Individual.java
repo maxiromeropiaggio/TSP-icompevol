@@ -26,8 +26,8 @@ public class Individual implements Comparable<Individual> {
             int src = genotype[i];
             int dst = genotype[(i + 1) % genotype.length];
             int cost = instance.getCost(src, dst);
-            if (cost == 0)
-                return 0.0;
+            /*if (cost == 0)
+                return 0.0;*/
             r += cost;
         }
 
@@ -61,6 +61,7 @@ public class Individual implements Comparable<Individual> {
         return "\n" +
                 "My: " + my + "\n" +
                 "Genotype: " + Arrays.toString(genotype) + "\n" +
-                "Fitness: " + cost + "\n";
+                "Cost: " + cost + "\n" +
+                "Fitness: " + getFitness() + "\n";
     }
 }
