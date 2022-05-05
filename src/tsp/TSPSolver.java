@@ -71,24 +71,25 @@ public class TSPSolver {
 
     private int[][] parentSelectionProcess(ArrayList<Individual> population) {
 
-        int[][] pairParents = new int[N / (2 * 2)][2];
+        int[][] pairParents = new int[N/2][2];
         int[] individuals = new int[N];
 
-        for (int j = 0; j < pairParents.length; j++) {
+        for (int i = 0; i < pairParents.length; i++)
+            for (int j = 0; j < pairParents[i].length; j++) {
 
-            int parent = selectParentByTournament(individuals, population);
-            pairParents[j][0] = parent;
-            individuals[parent] = 1;
+                int k = N - (2 * i + j);
+                if (k > this.k)
+                    k = this.k;
 
-            parent = selectParentByTournament(individuals, population);
-            pairParents[j][1] = parent;
-            individuals[parent] = 1;
-        }
+                int parent = selectParentByTournament(individuals, population, k);
+                pairParents[i][j] = parent;
+                individuals[parent] = 1;
+            }
 
         return pairParents;
     }
 
-    private int selectParentByTournament(int[] individuals, ArrayList<Individual> population) {
+    private int selectParentByTournament(int[] individuals, ArrayList<Individual> population, int k) {
         int parentWinner = -1;
         double parentFitness = -1;
         int[] candidates = new int[k];
@@ -158,8 +159,8 @@ public class TSPSolver {
 
         population.sort(Individual::compareTo);
 
-        System.out.println(Arrays.toString(population.toArray()));
-        System.out.println();
+        //System.out.println(Arrays.toString(population.toArray()));
+        //System.out.println();
 
         return population.get(N-1);
     }

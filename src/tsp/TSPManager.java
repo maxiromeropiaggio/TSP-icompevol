@@ -118,6 +118,15 @@ public class TSPManager implements Runnable {
 
         long startTime = System.nanoTime();
         ArrayList<Individual> population = solver.generateInitialPopulation();
+
+        System.out.println();
+        System.out.println(" -------------- GENERACION " + 0 + " --------------");
+        System.out.println();
+        for (int i = 0; i < N; i++) {
+            System.out.println(population.get(i).toString());
+            System.out.println();
+        }
+
         int generation = 1;
 
         while (generation <= maxGenerations) {
