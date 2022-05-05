@@ -21,7 +21,6 @@ public class TSPManager implements Runnable {
     private String mutation;
     private String survivors;
     private int N;
-    private int m;
     private double crossoverProbability;
     private double mutationProbability;
     private int k;
@@ -46,7 +45,6 @@ public class TSPManager implements Runnable {
             mutation = (String) tsp.get("mutation");
             survivors = (String) tsp.get("survivors");
             N = Math.toIntExact((long) tsp.get("N"));
-            m = Math.toIntExact((long) tsp.get("m"));
             crossoverProbability = (double) tsp.get("crossoverProbability");
             mutationProbability = (double) tsp.get("mutationProbability");
             k = Math.toIntExact((long) tsp.get("k"));
@@ -72,7 +70,7 @@ public class TSPManager implements Runnable {
             else
                 survivorsOperator = new RandomReplacement();
 
-            solver = new TSPSolver(instance, crossoverOperator, mutationOperator, survivorsOperator, N, m,
+            solver = new TSPSolver(instance, crossoverOperator, mutationOperator, survivorsOperator, N,
                     crossoverProbability, mutationProbability, k, n);
 
 
@@ -107,7 +105,6 @@ public class TSPManager implements Runnable {
         register.put("mutation", mutation);
         register.put("survivors", survivors);
         register.put("N", N);
-        register.put("m", m);
         register.put("crossoverProbability", crossoverProbability);
         register.put("mutationProbability", mutationProbability);
         register.put("k", k);
@@ -122,7 +119,8 @@ public class TSPManager implements Runnable {
         System.out.println();
         System.out.println(" -------------- GENERACION " + 0 + " --------------");
         System.out.println();
-        for (int i = 0; i < N; i++) {
+        population.sort(Individual::compareTo);
+        for (int i = 0; i < population.size(); i++) {
             System.out.println(population.get(i).toString());
             System.out.println();
         }
@@ -130,9 +128,6 @@ public class TSPManager implements Runnable {
         int generation = 1;
 
         while (generation <= maxGenerations) {
-            //System.out.println();
-            //System.out.println(" -------------- GENERACION" + generation + " --------------");
-            //System.out.println();
             JSONArray bestSolutionPerInteration = new JSONArray();
             best = solver.iterateGeneration(population);
 
@@ -140,19 +135,25 @@ public class TSPManager implements Runnable {
             bestSolutionPerInteration.add(best.getFitness());
 
             bestSolutions.add(bestSolutionPerInteration);
+
+
+            System.out.println();
+            System.out.println(" -------------- GENERACION " + generation + " --------------");
+            System.out.println();
+
+            for (int i = 0; i < population.size(); i++) {
+                System.out.println(population.get(i).toString());
+                System.out.println();
+            }
+
             generation++;
         }
-
-        /*for (int i = 0; i < N; i++) {
-            System.out.println(Arrays.toString(population.get(i).genotype) + "   " + population.get(i).getFitness());
-            System.out.println();
-        }*/
 
         long endTime = System.nanoTime();
 
         register.put("bestSolutions", bestSolutions);
-        register.put("best", Arrays.toString(best.genotype));
-        register.put("bestFitness", best.getFitness());
+        //register.put("best", Arrays.toString(best.genotype));
+//        register.put("bestFitness", best.getFitness());
         register.put("time", (endTime - startTime)/1e6); //ms
 
         try (FileWriter fw = new FileWriter("resultOf-" + name)) {

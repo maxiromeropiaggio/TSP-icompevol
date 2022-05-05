@@ -15,7 +15,6 @@ public class TSPSolver {
     private final MutationOperator mutation;
     private SurvivorsOperator survivors;
     private final int N;
-    private final int m;
     private final double crossoverProbability;
     private final double mutationProbability;
     private final int k;
@@ -29,14 +28,13 @@ public class TSPSolver {
      */
 
     public TSPSolver(TSPInstance instance, CrossoverOperator crossover, MutationOperator mutation,
-                     SurvivorsOperator survivors, int N, int m, double crossoverProbability, double mutationProbability,
+                     SurvivorsOperator survivors, int N, double crossoverProbability, double mutationProbability,
                      int k, int n) {
         this.instance = instance;
         this.crossover = crossover;
         this.mutation = mutation;
         this.survivors = survivors;
         this.N = N;
-        this.m = m;
         this.crossoverProbability = crossoverProbability;
         this.mutationProbability = mutationProbability;
         this.k = k;
@@ -44,18 +42,18 @@ public class TSPSolver {
     }
 
     public ArrayList<Individual> generateInitialPopulation() {
-
         ArrayList<Individual> initialPopulation = new ArrayList<>();
-        for (int i = 0; i < N - m; i++)
+
+        for (int i = 0; i < N; i++)
             initialPopulation.add(generateRandomGenotype());
 
         return initialPopulation;
     }
 
     private Individual generateRandomGenotype() {
-
         int dim = instance.DIMENSION;
         int[] r = new int [dim];
+
         ArrayList<Integer> candidates = new ArrayList<>();
         for (int i = 0; i < dim; i++)
             candidates.add(i);
@@ -72,36 +70,29 @@ public class TSPSolver {
     private int[][] parentSelectionProcess(ArrayList<Individual> population) {
 
         int[][] pairParents = new int[N/2][2];
-        int[] individuals = new int[N];
 
-        for (int i = 0; i < pairParents.length; i++)
-            for (int j = 0; j < pairParents[i].length; j++) {
-
-                int k = N - (2 * i + j);
-                if (k > this.k)
-                    k = this.k;
-
-                int parent = selectParentByTournament(individuals, population, k);
-                pairParents[i][j] = parent;
-                individuals[parent] = 1;
-            }
+        for (int i = 0; i < pairParents.length; i++) {
+                pairParents[i][0] = selectParentByTournament(population, -1);
+                pairParents[i][1] = selectParentByTournament(population, pairParents[i][0]);
+        }
 
         return pairParents;
     }
 
-    private int selectParentByTournament(int[] individuals, ArrayList<Individual> population, int k) {
+    private int selectParentByTournament(ArrayList<Individual> population, int p1) {
         int parentWinner = -1;
         double parentFitness = -1;
         int[] candidates = new int[k];
+        int[] individuals = new int[N];
 
         for (int i = 0; i < k; i++) {
             int posIndividual;
             do
                 posIndividual = (int) (Math.random() * N);
-            while (individuals[posIndividual] != 0);
+            while (individuals[posIndividual] != 0 && posIndividual != p1);
 
             candidates[i] = posIndividual;
-            individuals[posIndividual] = 2;
+            individuals[posIndividual] = 1;
         }
 
         for (int c : candidates) {
@@ -110,7 +101,6 @@ public class TSPSolver {
                 parentWinner = c;
                 parentFitness = candidateFitness;
             }
-            individuals[c] = 0;
         }
 
         return parentWinner;
@@ -119,7 +109,7 @@ public class TSPSolver {
     private ArrayList<Individual> crossoverOperation(int[][] pairParents, ArrayList<Individual> population) {
         ArrayList<Individual> newSons = new ArrayList<>();
 
-        for (int[] pair: pairParents)
+        for (int[] pair : pairParents)
             if (Math.random() < crossoverProbability) {
                 Individual[] parents = new Individual[2];
                 parents[0] = population.get(pair[0]);
@@ -139,12 +129,7 @@ public class TSPSolver {
     }
 
     private void selectionOfSurvivors(ArrayList<Individual> population, ArrayList<Individual> sons) {
-
-        int s = n;
-        if ((sons.size() < n))
-            s = sons.size();
-
-        survivors.applyOperator(population, sons, s);
+        survivors.applyOperator(population, sons, n);
     }
 
     /*
@@ -158,9 +143,6 @@ public class TSPSolver {
         selectionOfSurvivors(population, sons);
 
         population.sort(Individual::compareTo);
-
-        //System.out.println(Arrays.toString(population.toArray()));
-        //System.out.println();
 
         return population.get(N-1);
     }

@@ -15,14 +15,14 @@ public class RandomReplacement implements SurvivorsOperator {
      *
      * @param population
      * @param sons
-     * @param s
+     * @param n
      */
     @Override
-    public void applyOperator(ArrayList<Individual> population, ArrayList<Individual> sons, int s) {
+    public void applyOperator(ArrayList<Individual> population, ArrayList<Individual> sons, int n) {
 
         int replaces = 0;
         ArrayList<Integer> valuesUsed = new ArrayList<>();
-        for (int j = 0; j < sons.size() && replaces < s; j++) {
+        for (int j = 0; j < sons.size() && replaces < n; j++) {
             Individual son = sons.get(j);
             int i;
 

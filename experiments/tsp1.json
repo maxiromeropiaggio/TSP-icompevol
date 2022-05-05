@@ -1,14 +1,13 @@
 {
   "name": "Experiment",
-  "instance": "br17.atsp",
-  "crossover": "orden",
+  "instance": "test.atsp",
+  "crossover": "cycle",
   "mutation": "insertion",
   "survivors": "steady-state",
-  "N": 500,
-  "m": 0,
-  "crossoverProbability": 1.0,
+  "N": 100,
+  "crossoverProbability": 0.9,
   "mutationProbability": 0.1,
   "k": 10,
-  "n": 125,
-  "maxGenerations": 0
+  "n": 25,
+  "maxGenerations": 3
 }

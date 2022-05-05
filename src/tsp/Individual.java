@@ -54,23 +54,6 @@ public class Individual implements Comparable<Individual> {
         return Double.compare(this.getFitness(), i.getFitness());
     }
 
-    public boolean equals(Object o) {
-
-        Individual another = (Individual) o;
-        int j = another.getIndexOf(genotype[0]);
-
-        for (int i = 1; i < genotype.length; i++) {
-            j++;
-            j = j % another.genotype.length;
-            int valueI = genotype[i];
-            int valueJ = another.genotype[j];
-            if (valueI != valueJ)
-                return false;
-        }
-
-        return true;
-    }
-
     public String toString() {
         return "\n" +
                 "My: " + my + "\n" +
