@@ -134,10 +134,8 @@ public class TSPManager implements Runnable {
         register.put("best", best.toJSON());
         register.put("time", t); //s
 
-        //System.getLogger()
-
-        System.out.println("El resultado final es el siguiente:" + best.toString() +
-                "Tiempo de ejecución total: " + t + " segundos.");
+        System.out.println("\n " + name + ": Tarea finalizada." + best.toString() +
+                "Tiempo de ejecución total: " + t + " segundos.\n");
 
         File f = new File("results" + File.separator + "results_" + name + ".json");
 
@@ -148,7 +146,7 @@ public class TSPManager implements Runnable {
             bw.close();
 
         } catch (IOException e) {
-            System.err.println("tsp.TSPManager: file not found. Please re-try and be sure of input path.");
+            System.err.println("TSPManager: file not found. Please re-try and be sure of input path.");
         }
 
     }

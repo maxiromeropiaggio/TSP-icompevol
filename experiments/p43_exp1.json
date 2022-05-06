@@ -1,5 +1,5 @@
 {
-  "name": "Experiment",
+  "name": "p43_exp1",
   "instance": "p43.atsp",
   "crossover": "orden",
   "mutation": "insertion",
