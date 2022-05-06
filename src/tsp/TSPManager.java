@@ -134,6 +134,8 @@ public class TSPManager implements Runnable {
         register.put("best", best.toJSON());
         register.put("time", t); //s
 
+        //System.getLogger()
+
         System.out.println("El resultado final es el siguiente:" + best.toString() +
                 "Tiempo de ejecución total: " + t + " segundos.");
 
