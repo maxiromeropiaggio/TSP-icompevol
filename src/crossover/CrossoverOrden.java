@@ -71,12 +71,6 @@ public class CrossoverOrden implements CrossoverOperator {
             crossPoint1 = tmp;
         }
 
-        /*System.out.println(" -------------- PADRES --------------");
-        System.out.println(parentA.toString());
-        System.out.println(parentB.toString());
-        System.out.println("punto1: " + crossPoint1);
-        System.out.println("punto2: " + crossPoint2);*/
-
         sons[0] = crossAndGetSon(parentA, parentB, crossPoint1, crossPoint2);
         sons[1] = crossAndGetSon(parentB, parentA, crossPoint1, crossPoint2);
 

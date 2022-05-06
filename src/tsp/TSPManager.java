@@ -1,8 +1,8 @@
 package tsp;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import crossover.*;
 import mutation.*;
@@ -54,13 +54,13 @@ public class TSPManager implements Runnable {
             CrossoverOperator crossoverOperator;
             if (crossover.equals(CrossoverOrden.NAME))
                 crossoverOperator = new CrossoverOrden();
-            else /*if (crossover.equals(CrossoverCycle.NAME))*/
+            else
                 crossoverOperator = new CrossoverCycle();
 
             MutationOperator mutationOperator;
             if (mutation.equals(MutationInsertion.NAME))
                 mutationOperator = new MutationInsertion();
-            else /*if (mutation.equals(MutationInversion.NAME))*/
+            else
                 mutationOperator = new MutationInversion();
 
             SurvivorsOperator survivorsOperator;
@@ -116,49 +116,30 @@ public class TSPManager implements Runnable {
         long startTime = System.nanoTime();
         ArrayList<Individual> population = solver.generateInitialPopulation();
 
-        /*System.out.println();
-        System.out.println(" -------------- GENERACION " + 0 + " --------------");
-        System.out.println();*/
-
-        /*for (int i = 0; i < population.size(); i++) {
-            System.out.println(population.get(i).toString());
-        }*/
-
         int generation = 1;
 
         while (generation <= maxGenerations) {
-            JSONArray bestSolutionPerInteration = new JSONArray();
             best = solver.iterateGeneration(population);
 
-            bestSolutionPerInteration.add(Arrays.toString(best.genotype));
-            bestSolutionPerInteration.add(best.getFitness());
-
-            bestSolutions.add(bestSolutionPerInteration);
-
-            System.out.println();
-            System.out.println(" -------------- GENERACION " + generation + " --------------");
-            System.out.println();
-            System.out.println(best.toString());
-
-            /*for (int i = 0; i < population.size(); i++) {
-                System.out.println(population.get(i).toString());
-            }*/
+            bestSolutions.add(best.toJSON());
 
             generation++;
         }
 
         long endTime = System.nanoTime();
+        DecimalFormat df = new DecimalFormat("#.###");
+        String t = df.format((endTime - startTime)/1e9);
 
-        /*for (int i = 0; i < population.size(); i++) {
-            System.out.println(population.get(i).toString());
-        }*/
+        register.put("parcialSolutions", bestSolutions);
+        register.put("best", best.toJSON());
+        register.put("time", t); //s
 
-        register.put("bestSolutions", bestSolutions);
-        //register.put("best", Arrays.toString(best.genotype));
-//        register.put("bestFitness", best.getFitness());
-        register.put("time", (endTime - startTime)/1e8); //ms
+        System.out.println("El resultado final es el siguiente:" + best.toString() +
+                "Tiempo de ejecución total: " + t + " segundos.");
 
-        try (FileWriter fw = new FileWriter("resultOf-" + name)) {
+        File f = new File("results" + File.separator + "results_" + name + ".json");
+
+        try (FileWriter fw = new FileWriter(f)) {
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write(register.toJSONString());

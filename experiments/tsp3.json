@@ -1,0 +1,13 @@
+{
+  "name": "experiment",
+  "instance": "p43.atsp",
+  "crossover": "cycle",
+  "mutation": "inversion",
+  "survivors": "steady-state",
+  "N": 500,
+  "crossoverProbability": 1.0,
+  "mutationProbability": 0.1,
+  "k": 15,
+  "n": 75,
+  "maxGenerations": 500
+}

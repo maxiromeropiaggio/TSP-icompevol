@@ -1,6 +1,8 @@
 package tsp;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
+import org.json.simple.JSONObject;
 
 public class Individual implements Comparable<Individual> {
 
@@ -25,10 +27,7 @@ public class Individual implements Comparable<Individual> {
         for (int i = 0; i < genotype.length; i++) {
             int src = genotype[i];
             int dst = genotype[(i + 1) % genotype.length];
-            int cost = instance.getCost(src, dst);
-            /*if (cost == 0)
-                return 0.0;*/
-            r += cost;
+            r += instance.getCost(src, dst);
         }
 
         cost = r;
@@ -58,10 +57,21 @@ public class Individual implements Comparable<Individual> {
     }
 
     public String toString() {
+        DecimalFormat df = new DecimalFormat("#.######");
         return "\n" +
                 "I am: " + iam + "\n" +
                 "Genotype: " + Arrays.toString(genotype) + "\n" +
-                "Cost: " + cost + "\n" +
-                "Fitness: " + getFitness() + "\n";
+                "Cost: " + (int) cost + "\n" +
+                "Fitness: " + df.format(getFitness()) + "\n";
+    }
+
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        DecimalFormat df = new DecimalFormat("#.######");
+        json.put("Individual", iam);
+        json.put("Genotype", Arrays.toString(genotype));
+        json.put("Cost", (int) cost);
+        json.put("Fitness", df.format(getFitness()));
+        return json;
     }
 }

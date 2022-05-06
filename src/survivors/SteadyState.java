@@ -23,16 +23,6 @@ public class SteadyState implements SurvivorsOperator {
         population.sort(Individual::compareTo);
         sons.sort(Individual::compareTo);
 
-        /*System.out.println();
-        System.out.println("POPULATION");
-        for (int i = 0; i < population.size(); i++)
-            System.out.println(population.get(i));
-
-        System.out.println();
-        System.out.println("SONS");
-        for (int i = 0; i < sons.size(); i++)
-            System.out.println(sons.get(i));*/
-
         int i = 0;
         int j = sons.size()-1;
         for (int replaces = 0; replaces < n; replaces++) {
@@ -40,12 +30,6 @@ public class SteadyState implements SurvivorsOperator {
             i++;
             j--;
         }
-
-        /*System.out.println();
-        System.out.println("SOBREVIVIENTES APLICADOS");
-        System.out.println();
-        for (int a = 0; a < population.size(); a++)
-            System.out.println(population.get(a));*/
 
     }
 }

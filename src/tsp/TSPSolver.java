@@ -5,7 +5,6 @@ import mutation.MutationOperator;
 import survivors.SurvivorsOperator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TSPSolver {
 
@@ -93,7 +92,6 @@ public class TSPSolver {
             do
                 posIndividual = (int) (Math.random() * N);
             while (individuals[posIndividual] != 0);
-            //while (individuals[posIndividual] != 0 && posIndividual != p1);
 
             candidates[i] = posIndividual;
             individuals[posIndividual] = 1;
@@ -119,20 +117,9 @@ public class TSPSolver {
                 parents[0] = population.get(pair[0]);
                 parents[1] = population.get(pair[1]);
 
-                /*System.out.println();
-                System.out.println(" -------------- ID PADRES --------------");
-                System.out.println("P1: " + pair[0] + " P2: " + pair[1]);
-                System.out.println();*/
-
-
                 Individual[] inds = this.crossover.applyOperator(parents);
                 newSons.add(inds[0]);
                 newSons.add(inds[1]);
-
-                /*System.out.println();
-                System.out.println(" -------------- HIJOS --------------");
-                System.out.println(inds[0].toString());
-                System.out.println(inds[1].toString());*/
             }
 
         return newSons;
@@ -140,19 +127,8 @@ public class TSPSolver {
 
     private void mutationOperation(ArrayList<Individual> sons) {
         for (Individual son : sons)
-            if (Math.random() < mutationProbability) {
-
-                /*System.out.println();
-                System.out.println(" -------------- HIJOS MUTACION --------------");*/
-
+            if (Math.random() < mutationProbability)
                 mutation.applyOperator(son);
-
-                /*System.out.println(son.toString());*/
-            }
-    }
-
-    private void selectionOfSurvivors(ArrayList<Individual> population, ArrayList<Individual> sons) {
-        survivors.applyOperator(population, sons, n);
     }
 
     /*
@@ -161,10 +137,12 @@ public class TSPSolver {
     public Individual iterateGeneration(ArrayList<Individual> population) {
 
         int[][] pairParents = parentSelectionProcess(population);
+
         ArrayList<Individual> sons = crossoverOperation(pairParents, population);
 
         mutationOperation(sons);
-        selectionOfSurvivors(population, sons);
+
+        survivors.applyOperator(population, sons, n);
 
         population.sort(Individual::compareTo);
 
