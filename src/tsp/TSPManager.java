@@ -149,19 +149,14 @@ public class TSPManager implements Runnable {
 
         long endTime = System.nanoTime();
 
-        System.out.println();
-        System.out.println(" -------------- GENERACION " + generation + " --------------");
-        System.out.println();
-        System.out.println(best.toString());
-
-        for (int i = 0; i < population.size(); i++) {
+        /*for (int i = 0; i < population.size(); i++) {
             System.out.println(population.get(i).toString());
-        }
+        }*/
 
         register.put("bestSolutions", bestSolutions);
         //register.put("best", Arrays.toString(best.genotype));
 //        register.put("bestFitness", best.getFitness());
-        register.put("time", (endTime - startTime)/1e6); //ms
+        register.put("time", (endTime - startTime)/1e8); //ms
 
         try (FileWriter fw = new FileWriter("resultOf-" + name)) {
             BufferedWriter bw = new BufferedWriter(fw);

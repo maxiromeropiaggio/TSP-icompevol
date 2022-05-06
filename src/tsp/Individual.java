@@ -9,13 +9,13 @@ public class Individual implements Comparable<Individual> {
     private double fitness;
     private double cost = Double.POSITIVE_INFINITY;
     private static int i = 0;
-    private final int my;
+    private final int iam;
 
     public Individual(TSPInstance instance, int[] genotype) {
         this.instance = instance;
         this.genotype = genotype;
         this.fitness = -1.0;
-        this.my = i;
+        this.iam = i;
         i++;
     }
 
@@ -59,7 +59,7 @@ public class Individual implements Comparable<Individual> {
 
     public String toString() {
         return "\n" +
-                "My: " + my + "\n" +
+                "I am: " + iam + "\n" +
                 "Genotype: " + Arrays.toString(genotype) + "\n" +
                 "Cost: " + cost + "\n" +
                 "Fitness: " + getFitness() + "\n";
