@@ -1,0 +1,13 @@
+{
+  "name": "p43_exp3d",
+  "instance": "p43.atsp",
+  "crossover": "orden",
+  "mutation": "insertion",
+  "survivors": "steady-state",
+  "N": 500,
+  "crossoverProbability": 0.56,
+  "mutationProbability": 0.18,
+  "k": 2,
+  "n": 50,
+  "maxGenerations": 800
+}

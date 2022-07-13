@@ -1,0 +1,13 @@
+{
+  "name": "br17_exp3a",
+  "instance": "br17.atsp",
+  "crossover": "orden",
+  "mutation": "insertion",
+  "survivors": "steady-state",
+  "N": 400,
+  "crossoverProbability": 0.6,
+  "mutationProbability": 0.1,
+  "k": 8,
+  "n": 80,
+  "maxGenerations": 20
+}

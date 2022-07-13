@@ -1,13 +1,13 @@
 {
-  "name": "p43_exp1",
+  "name": "p43_exp3b",
   "instance": "p43.atsp",
   "crossover": "orden",
   "mutation": "insertion",
   "survivors": "steady-state",
-  "N": 100,
-  "crossoverProbability": 0.84,
+  "N": 400,
+  "crossoverProbability": 0.6,
   "mutationProbability": 0.12,
-  "k": 10,
-  "n": 20,
-  "maxGenerations": 120
+  "k": 2,
+  "n": 40,
+  "maxGenerations": 80
 }
