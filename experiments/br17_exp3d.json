@@ -5,7 +5,7 @@
   "mutation": "inversion",
   "survivors": "steady-state",
   "N": 200,
-  "crossoverProbability": 0.9,
+  "crossoverProbability": 0.6,
   "mutationProbability": 0.3,
   "k": 2,
   "n": 20,
